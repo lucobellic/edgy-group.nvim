@@ -22,7 +22,7 @@ Usage of **edgy-group** with icons in bufferline top left corner.
 
 - Switch between groups of windows within **edgebar**.
 - Add command to navigate throw groups of windows.
-- Allow to create custom icon indicators in statusline or bufferline, etc.
+- Allow to create custom icon indicators in statusline, bufferline, etc.
 
 ## ⚠️ Limitations
 
@@ -46,7 +46,7 @@ Usage of **edgy-group** with icons in bufferline top left corner.
 
 Install the plugin with your preferred package manager:
 
-[lazy.nvim]("folke/edgy.nvim"):
+[lazy.nvim]("https://github.com/folke/lazy.nvim"):
 
 ```lua
 {
@@ -94,8 +94,8 @@ The following example use **edgy-group.nvim** to create three groups for the lef
     },
   },
   opts = {
-      { icon = '', pos = 'left', titles = { 'Neo-Tree', 'Neo-Tree Git' } },
-      { icon = '', pos = 'left', titles = { 'Neo-Tree Buffers' } },
+      { icon = '', pos = 'left', titles = { 'Neo-Tree', 'Neo-Tree Buffers' } },
+      { icon = '', pos = 'left', titles = { 'Neo-Tree Git' } },
       { icon = '', pos = 'left', titles = { 'Outline' } },
   }
 }
