@@ -1,7 +1,7 @@
 local Config = require('edgy.config')
 local Util = require('edgy.util')
 
--- Define groups of edgebar views by filetype
+-- Define groups of edgebar views by title
 ---@class EdgyGroup
 ---@field icon string
 ---@field pos Edgy.Pos
@@ -23,7 +23,7 @@ function M.setup(opts)
   require('edgy-group.commands').setup()
 end
 
--- Filter views by filetype
+-- Filter views by title
 ---@param views Edgy.View[]
 ---@param titles string[]
 ---@return Edgy.View[]
@@ -60,7 +60,7 @@ function M.close_edgebar_views_by_titles(pos, titles)
   end
 end
 
--- Open edgebar views for the given position and filetype
+-- Open edgebar views for the given position and title
 ---@param pos Edgy.Pos
 ---@param titles string[]
 function M.open_edgebar_views_by_titles(pos, titles)
