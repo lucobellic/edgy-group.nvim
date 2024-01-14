@@ -12,10 +12,9 @@
 
 ---
 
-## Demo
+Usage of **edgy-group** with icons in bufferline top left corner.
 
-> [!NOTE]
-> TODO
+![edgy-group](https://github.com/lucobellic/edgy-group.nvim/assets/6067072/a47a6e7f-17fb-4f2a-8116-904c89fa8da3)
 
 ---
 
