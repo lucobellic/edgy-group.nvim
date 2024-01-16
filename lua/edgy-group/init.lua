@@ -84,9 +84,9 @@ end
 ---@param offset number
 function M.open_group(pos, offset)
   local group_index = M.current_group_index[pos]
-  group_index = (M.current_group_index[pos] + offset - 1) % #M.groups + 1
+  group_index = (M.current_group_index[pos] + offset - 1) % #groups_by_pos(pos) + 1
 
-  local selected_group = groups_by_pos(pos)[group_index]
+  local selected_group = M.groups[group_index]
   local other_groups = vim.tbl_filter(function(group) return group.icon ~= selected_group.icon end, M.groups)
   local other_groups_titles = vim.tbl_map(function(group) return group.titles end, other_groups)
 
@@ -104,6 +104,30 @@ function M.open_group(pos, offset)
   end
 
   M.current_group_index[pos] = group_index
+end
+
+-- Get the currently selected group for the given position
+---@param pos Edgy.Pos
+---@return EdgyGroup?
+function M.selected(pos)
+  local selected_index = M.current_group_index[pos]
+  return selected_index and groups_by_pos(pos)[selected_index] or nil
+end
+
+-- Get the groups before the currently selected group for the given position
+---@param pos Edgy.Pos
+---@return EdgyGroup[]
+function M.before_selected(pos)
+  local selected_index = M.current_group_index[pos]
+  return selected_index and vim.list_slice(groups_by_pos(pos), 1, selected_index - 1) or {}
+end
+
+-- Get the groups after the currently selected group for the given position
+---@param pos Edgy.Pos
+---@return EdgyGroup[]
+function M.after_selected(pos)
+  local selected_index = M.current_group_index[pos]
+  return selected_index and vim.list_slice(groups_by_pos(pos), selected_index + 1) or {}
 end
 
 return M
