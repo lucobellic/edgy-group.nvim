@@ -83,18 +83,18 @@ end
 ---@param pos Edgy.Pos
 ---@param offset number
 function M.open_group(pos, offset)
+  local groups = groups_by_pos(pos)
   local group_index = M.current_group_index[pos]
-  group_index = (M.current_group_index[pos] + offset - 1) % #groups_by_pos(pos) + 1
+  group_index = (M.current_group_index[pos] + offset - 1) % #groups + 1
 
-  local selected_group = M.groups[group_index]
-  local other_groups = vim.tbl_filter(function(group) return group.icon ~= selected_group.icon end, M.groups)
+  local selected_group = groups[group_index]
+  local other_groups = vim.tbl_filter(function(group) return group.icon ~= selected_group.icon end, groups)
   local other_groups_titles = vim.tbl_map(function(group) return group.titles end, other_groups)
 
   -- Save previous window position
   local window = vim.api.nvim_get_current_win()
   local cursor = vim.api.nvim_win_get_cursor(0)
 
-  -- vim.notify(vim.inspect(selected_group.titles))
   M.open_edgebar_views_by_titles(pos, selected_group.titles)
   M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
 
