@@ -43,6 +43,13 @@ local function open(view)
   end
 end
 
+-- Get groups for the given position
+---@param pos Edgy.Pos
+---@return EdgyGroup[]
+local function groups_by_pos(pos)
+  return vim.tbl_filter(function(group) return group.pos == pos end, M.groups)
+end
+
 -- Close edgebar views for the given position and title
 ---@param pos Edgy.Pos
 ---@param titles string[]
@@ -79,7 +86,7 @@ function M.open_group(pos, offset)
   local group_index = M.current_group_index[pos]
   group_index = (M.current_group_index[pos] + offset - 1) % #M.groups + 1
 
-  local selected_group = M.groups[group_index]
+  local selected_group = groups_by_pos(pos)[group_index]
   local other_groups = vim.tbl_filter(function(group) return group.icon ~= selected_group.icon end, M.groups)
   local other_groups_titles = vim.tbl_map(function(group) return group.titles end, other_groups)
 
