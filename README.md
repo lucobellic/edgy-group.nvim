@@ -64,9 +64,10 @@ Open and close groups of windows with keymaps, command or API.
 ### 🔌 API
 
 - **EdgyGroupSelect** select group to open with **vim.ui.select**
-- **EdgyGroupNext <pos>** open next group at given position
-- **EdgyGroupPrev <pos>** open previous group at given position
-- **require('edgy-group').open_group(position, offset)** open group with offset relative to the current group
+- **EdgyGroupNext position** open next group at given position
+- **EdgyGroupPrev position** open previous group at given position
+- **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group
+- **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position
 
 ## Example Setup
 
@@ -84,12 +85,12 @@ The following example use **edgy-group.nvim** to create three groups for the lef
   keys = {
     {
       '<leader>el',
-      function() require('edgy-group').open_group('left', 1) end,
+      function() require('edgy-group').open_group_offset('left', 1) end,
       desc = 'Edgy Group Next Left',
     },
     {
       '<leader>eh',
-      function() require('edgy-group').open_group('left', -1) end,
+      function() require('edgy-group').open_group_offset('left', -1) end,
       desc = 'Edgy Group Prev Left',
     },
   },
@@ -115,13 +116,13 @@ Here is an example of how to use **edgy-group.nvim** with [bufferline.nvim](http
         left = function()
           local result = {}
           local position = 'left'
-          local edgy_groups = require('edgy-group')
+          local edgy_group = require('edgy-group')
           local edgebar = require('edgy.config').layout[position]
           if edgebar and edgebar.visible ~= 0 then
             local groups = vim.tbl_filter(function(group) return group.pos == position end, edgy_group.groups)
             for i, group in ipairs(groups) do
               local title = ' ' .. group.icon .. '  '
-              local is_current = edgy_groups.current_group_index[position] == i
+              local is_current = edgy_group.current_group_index[position] == i
               local highlight = is_current and 'BufferLineTabSelected' or 'BufferLineTab'
               table.insert(result, { text = title, link = highlight })
             end
