@@ -41,8 +41,13 @@ function M.close_edgebar_views_by_titles(pos, titles)
     local views = filter_by_titles(edgebar.views, titles)
     for _, view in ipairs(views) do
       for _, win in ipairs(view.wins) do
+        -- Hide pinned window
         if win:is_valid() then
-          win:close()
+          if win:is_pinned() then
+            win:hide()
+          else
+            win:close()
+          end
         end
       end
     end
