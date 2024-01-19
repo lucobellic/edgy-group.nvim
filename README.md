@@ -28,7 +28,7 @@ Usage of **edgy-group** with icons in bufferline top left corner.
 
 **edgy-group.nvim** do not introduce new **edgebar** per position it's a simple wrapper around **edgy.nvim** used to open and close windows within the same **edgebar**.
 
-- All **edgy** windows require an unique **title** to create groups.
+- All **edgy** windows require a unique **title** to create groups.
 - All **edgy** windows require an **open** command to open each window.
 - Opening a window with function or command call will not automatically switch to the corresponding group.
 - Switching between groups always set the cursor to one of the **edgbar** window and do not restore the previous cursor position.
@@ -64,9 +64,10 @@ Open and close groups of windows with keymaps, command or API.
 ### 🔌 API
 
 - **EdgyGroupSelect** select group to open with **vim.ui.select**
-- **EdgyGroupNext <pos>** open next group at given position
-- **EdgyGroupPrev <pos>** open previous group at given position
-- **require('edgy-group').open_group(position, offset)** open group with offset relative to the current group
+- **EdgyGroupNext position** open next group at given position
+- **EdgyGroupPrev position** open previous group at given position
+- **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group
+- **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position
 
 ## Example Setup
 
@@ -84,19 +85,23 @@ The following example use **edgy-group.nvim** to create three groups for the lef
   keys = {
     {
       '<leader>el',
-      function() require('edgy-group').open_group('left', 1) end,
+      function() require('edgy-group').open_group_offset('left', 1) end,
       desc = 'Edgy Group Next Left',
     },
     {
       '<leader>eh',
-      function() require('edgy-group').open_group('left', -1) end,
+      function() require('edgy-group').open_group_offset('left', -1) end,
       desc = 'Edgy Group Prev Left',
     },
   },
   opts = {
-      { icon = '', pos = 'left', titles = { 'Neo-Tree', 'Neo-Tree Buffers' } },
-      { icon = '', pos = 'left', titles = { 'Neo-Tree Git' } },
-      { icon = '', pos = 'left', titles = { 'Outline' } },
+    groups = {
+      left = {
+        { icon = '',  titles = { 'Neo-Tree', 'Neo-Tree Buffers' } },
+        { icon = '',  titles = { 'Neo-Tree Git' } },
+        { icon = '',  titles = { 'Outline' } },
+      },
+    },
   }
 }
 ```
@@ -115,13 +120,14 @@ Here is an example of how to use **edgy-group.nvim** with [bufferline.nvim](http
         left = function()
           local result = {}
           local position = 'left'
-          local edgy_groups = require('edgy-group')
+          local edgy_group = require('edgy-group')
           local edgebar = require('edgy.config').layout[position]
           if edgebar and edgebar.visible ~= 0 then
-            local groups = vim.tbl_filter(function(group) return group.pos == position end, edgy_group.groups)
+            local g = edgy_group.groups_by_pos[position]
+            local groups = g and g.groups or {}
             for i, group in ipairs(groups) do
               local title = ' ' .. group.icon .. '  '
-              local is_current = edgy_groups.current_group_index[position] == i
+              local is_current = g.selected_index == i
               local highlight = is_current and 'BufferLineTabSelected' or 'BufferLineTab'
               table.insert(result, { text = title, link = highlight })
             end

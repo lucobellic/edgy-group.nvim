@@ -2,24 +2,13 @@ local Config = require('edgy.config')
 local Util = require('edgy.util')
 
 -- Define groups of edgebar views by title
----@class EdgyGroup
----@field icon string
----@field pos Edgy.Pos
----@field titles string[]
-
----@class EdgyGroup.Opts
----@field groups EdgyGroup[]
-
----@class EdgyGroups: EdgyGroup.Opts
----@field current_group_index table<string, number> Index of the current group for each position
+---@class EdgyGroups
+---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> List of groups for each position
 local M = {}
-M.groups = {}
-M.current_group_index = { bottom = 1, left = 1, right = 1, top = 1 }
 
 ---@param opts EdgyGroup.Opts
 function M.setup(opts)
-  M.groups = opts.groups or {}
-  M.current_group_index = { bottom = 1, left = 1, right = 1, top = 1 }
+  M.groups_by_pos = require('edgy-group.options').setup(opts)
   require('edgy-group.commands').setup()
 end
 
@@ -43,13 +32,6 @@ local function open(view)
   end
 end
 
--- Get groups for the given position
----@param pos Edgy.Pos
----@return EdgyGroup[]
-local function groups_by_pos(pos)
-  return vim.tbl_filter(function(group) return group.pos == pos end, M.groups)
-end
-
 -- Close edgebar views for the given position and title
 ---@param pos Edgy.Pos
 ---@param titles string[]
@@ -59,8 +41,13 @@ function M.close_edgebar_views_by_titles(pos, titles)
     local views = filter_by_titles(edgebar.views, titles)
     for _, view in ipairs(views) do
       for _, win in ipairs(view.wins) do
+        -- Hide pinned window
         if win:is_valid() then
-          win:close()
+          if win:is_pinned() then
+            win:hide()
+          else
+            win:close()
+          end
         end
       end
     end
@@ -80,54 +67,38 @@ function M.open_edgebar_views_by_titles(pos, titles)
   end
 end
 
+-- Open group at index at given position
+---@param pos Edgy.Pos
+---@param index number Index relative to the group at given position
+function M.open_group_index(pos, index)
+  local g = M.groups_by_pos[pos]
+  local indexed_group = g and g.groups[index]
+  if indexed_group then
+    local other_groups = vim.tbl_filter(function(group) return group.icon ~= indexed_group.icon end, g.groups)
+    local other_groups_titles = vim.tbl_map(function(group) return group.titles end, other_groups)
+
+    M.open_edgebar_views_by_titles(pos, indexed_group.titles)
+    M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
+    g.selected_index = index
+  end
+end
+
+-- Open group relative to the currently selected group for the given position
 ---@param pos Edgy.Pos
 ---@param offset number
-function M.open_group(pos, offset)
-  local groups = groups_by_pos(pos)
-  local group_index = M.current_group_index[pos]
-  group_index = (M.current_group_index[pos] + offset - 1) % #groups + 1
-
-  local selected_group = groups[group_index]
-  local other_groups = vim.tbl_filter(function(group) return group.icon ~= selected_group.icon end, groups)
-  local other_groups_titles = vim.tbl_map(function(group) return group.titles end, other_groups)
-
-  -- Save previous window position
-  local window = vim.api.nvim_get_current_win()
-  local cursor = vim.api.nvim_win_get_cursor(0)
-
-  M.open_edgebar_views_by_titles(pos, selected_group.titles)
-  M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
-
-  -- Restore focus to the first window
-  if vim.api.nvim_win_is_valid(window) then
-    vim.api.nvim_win_set_cursor(window, cursor)
+function M.open_group_offset(pos, offset)
+  local g = M.groups_by_pos[pos]
+  if g then
+    M.open_group_index(pos, g:get_offset_index(offset))
   end
-
-  M.current_group_index[pos] = group_index
 end
 
 -- Get the currently selected group for the given position
 ---@param pos Edgy.Pos
 ---@return EdgyGroup?
 function M.selected(pos)
-  local selected_index = M.current_group_index[pos]
-  return selected_index and groups_by_pos(pos)[selected_index] or nil
-end
-
--- Get the groups before the currently selected group for the given position
----@param pos Edgy.Pos
----@return EdgyGroup[]
-function M.before_selected(pos)
-  local selected_index = M.current_group_index[pos]
-  return selected_index and vim.list_slice(groups_by_pos(pos), 1, selected_index - 1) or {}
-end
-
--- Get the groups after the currently selected group for the given position
----@param pos Edgy.Pos
----@return EdgyGroup[]
-function M.after_selected(pos)
-  local selected_index = M.current_group_index[pos]
-  return selected_index and vim.list_slice(groups_by_pos(pos), selected_index + 1) or {}
+  local g = M.groups_by_pos[pos]
+  return g and g:get_selected_group()
 end
 
 return M
