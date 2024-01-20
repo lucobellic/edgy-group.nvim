@@ -2,7 +2,7 @@
   🖇️ edgy-group.nvim
 </h1>
 
-<p align="center"><b>edgy-group.nvim</b> provides a straightforward approach to arranging windows within <b>edgebar</b> according to their title.</p>
+<p align="center"><b>edgy-group.nvim</b> extend <b><a href=https://github.com/folke/edgy.nvim>edgy.nvim</a></b> with a straightforward approach to arranging windows within <b>edgebar</b> according to their title.</p>
 
 ---
 
