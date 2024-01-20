@@ -2,17 +2,17 @@
   🖇️ edgy-group.nvim
 </h1>
 
-<p align="center"><b>edgy-group.nvim</b> provides a straightforward approach to arranging windows within <b>edgebar</b> according to their title.</p>
+<p align="center"><b>edgy-group.nvim</b> extends <b><a href=https://github.com/folke/edgy.nvim>edgy.nvim</a></b> by providing a simple method for organizing windows within the <b>edgebar</b> based on their title.</p>
 
 ---
 
 > [!IMPORTANT]
-> This plugin is intended for personal and demonstration purposes only and have a lot of limitations
+> This plugin is intended for personal and demonstration purposes only and have a lot of limitations.<br/>
 > It is not recommended to use this plugin.
 
 ---
 
-Usage of **edgy-group** with icons in bufferline top left corner.
+Using **edgy-group** with icons in the top left corner of the bufferline.
 
 ![edgy-group](https://github.com/lucobellic/edgy-group.nvim/assets/6067072/a47a6e7f-17fb-4f2a-8116-904c89fa8da3)
 
@@ -20,23 +20,23 @@ Usage of **edgy-group** with icons in bufferline top left corner.
 
 ## ✨ Features
 
-- Switch between groups of windows within **edgebar**.
-- Add command to navigate throw groups of windows.
-- Allow to create custom icon indicators in statusline, bufferline, etc.
+- Switch between groups of windows within the **edgebar**.
+- Add a command to navigate through groups of windows.
+- Allow the creation of custom icon indicators in the statusline, bufferline, etc.
 
 ## ⚠️ Limitations
 
-**edgy-group.nvim** do not introduce new **edgebar** per position it's a simple wrapper around **edgy.nvim** used to open and close windows within the same **edgebar**.
+**edgy-group.nvim** does not introduce a new **edgebar** for each position. It is a simple wrapper around **edgy.nvim** that is used to open and close windows within the same **edgebar**.
 
-- All **edgy** windows require a unique **title** to create groups.
+- All **edgy** windows require a unique **title** in order to create groups.
 - All **edgy** windows require an **open** command to open each window.
-- Opening a window with function or command call will not automatically switch to the corresponding group.
-- Switching between groups always set the cursor to one of the **edgbar** window and do not restore the previous cursor position.
+- Opening a window with a function or command call will not automatically switch to the corresponding group.
+- Switching between groups always sets the cursor to one of the **edgebar** windows and does not restore the previous cursor position.
 
 ### Advice
 
-- Prefer to use at least one **pinned** window with **close_when_all_hidden** set to **true** to avoid **edgebar** _"blinking"_ when switching between groups.
-  A fix would be to wait for at least one window to be opened before closing existing ones.
+- It is preferable to use at least one **pinned** window with the **close_when_all_hidden** option set to **true** in order to prevent the **edgebar** from "blinking" when switching between groups.<br/>
+  A possible solution would be to wait until at least one window is opened before closing any existing ones.
 
 ## ⚡️ Requirements
 
@@ -44,7 +44,7 @@ Usage of **edgy-group** with icons in bufferline top left corner.
 
 ## 📦️ Installation
 
-Install the plugin with your preferred package manager:
+Install the plugin using your preferred package manager.
 
 [lazy.nvim]("https://github.com/folke/lazy.nvim"):
 
@@ -59,23 +59,48 @@ Install the plugin with your preferred package manager:
 
 ## 🚀️ Usage
 
-Open and close groups of windows with keymaps, command or API.
+You can open and close groups of windows using keymaps, commands, or APIs.
+
+### 🎛️ Options
+
+```lua
+local default_options = {
+  groups = {
+    right = {}, -- { icon = '',  titles = { 'Neo-Tree', 'Neo-Tree Buffers' } }
+    left = {},
+    bottom = {},
+    top = {},
+  },
+  -- configuration for `require('edgy-group.stl.statusline').get_statusline(pos)`
+  statusline = {
+    -- suffix and prefix separators between icons
+    separators = { ' ', ' ' },
+    clickable = false, -- enable `open_group` on click
+    colored = false, -- enable highlight support
+    colors = { -- highlight colors
+      active = 'Normal',
+      inactive = 'Normal',
+    },
+  },
+}
+```
 
 ### 🔌 API
 
-- **EdgyGroupSelect** select group to open with **vim.ui.select**
-- **EdgyGroupNext position** open next group at given position
-- **EdgyGroupPrev position** open previous group at given position
-- **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group
-- **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position
+- **EdgyGroupSelect** select group to open with **vim.ui.select**.
+- **EdgyGroupNext position** open next group at given position.
+- **EdgyGroupPrev position** open previous group at given position.
+- **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group.
+- **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position.
+- **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string in statusline format for each group icons with optional highlight and click support.
 
 ## Example Setup
 
 > [!WARNING]
-> Only groups with provided title are displayed.
-> No default group is created if titles from edgy are not provided.
+> Only groups with a provided title will be displayed.<br/>
+> A default group will not be created if titles from edgy are missing.
 
-The following example use **edgy-group.nvim** to create three groups for the left **edgebar**:
+Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
 
 ```lua
 {
@@ -102,13 +127,24 @@ The following example use **edgy-group.nvim** to create three groups for the lef
         { icon = '',  titles = { 'Outline' } },
       },
     },
+    statusline = {
+      separators = { ' ', ' ' },
+      clickable = true,
+      colored = true,
+      colors = {
+        active = 'PmenuSel',
+        inactive = 'Pmenu',
+      },
+    },
   }
 }
 ```
 
-### Example with bufferline
+### Example with statusline
 
-Here is an example of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) to add group icons on the left section of bufferline.
+Here are some examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
+
+#### bufferline
 
 ```lua
 {
@@ -118,24 +154,33 @@ Here is an example of how to use **edgy-group.nvim** with [bufferline.nvim](http
     options = {
       custom_areas = {
         left = function()
-          local result = {}
-          local position = 'left'
-          local edgy_group = require('edgy-group')
-          local edgebar = require('edgy.config').layout[position]
-          if edgebar and edgebar.visible ~= 0 then
-            local g = edgy_group.groups_by_pos[position]
-            local groups = g and g.groups or {}
-            for i, group in ipairs(groups) do
-              local title = ' ' .. group.icon .. '  '
-              local is_current = g.selected_index == i
-              local highlight = is_current and 'BufferLineTabSelected' or 'BufferLineTab'
-              table.insert(result, { text = title, link = highlight })
-            end
-          end
-          return result
+          return vim.tbl_map(
+            function(item) return { text = item } end,
+            require('edgy-group.stl.statusline').get_statusline('left')
+          )
         end,
       },
     },
   }
 }
+```
+
+#### lualine
+
+```lua
+{
+  'nvim-lualine/lualine.nvim',
+  -- ...
+  opts = {
+    sections = {
+      lualine_c = {
+        '%=',
+        {
+          function() return table.concat(require('edgy-group.stl.statusline').get_statusline('bottom')) end,
+        },
+      },
+    },
+  },
+}
+
 ```
