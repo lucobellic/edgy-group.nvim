@@ -30,20 +30,18 @@ function M.setup()
 
   local user_command_opts = {
     nargs = 1,
-    complete = function() return { 'right', 'left', 'top', 'bottom' } end,
+    complete = function()
+      return { 'right', 'left', 'top', 'bottom' }
+    end,
   }
 
-  vim.api.nvim_create_user_command(
-    'EdgyGroupNext',
-    function(opts) require('edgy-group').open_group_offset(opts.args, 1) end,
-    user_command_opts
-  )
+  vim.api.nvim_create_user_command('EdgyGroupNext', function(opts)
+    require('edgy-group').open_group_offset(opts.args, 1)
+  end, user_command_opts)
 
-  vim.api.nvim_create_user_command(
-    'EdgyGroupPrev',
-    function(opts) require('edgy-group').open_group_offset(opts.args, -1) end,
-    user_command_opts
-  )
+  vim.api.nvim_create_user_command('EdgyGroupPrev', function(opts)
+    require('edgy-group').open_group_offset(opts.args, -1)
+  end, user_command_opts)
 
   -- Select a group to open from args or with vim.ui.select
   vim.api.nvim_create_user_command('EdgyGroupSelect', function(opts)
@@ -54,17 +52,13 @@ function M.setup()
           prompt = 'Select Edgy Group:',
           ---@param item? SelectionItem
           format_item = function(item)
-            if item then
-              return item.pos .. ': ' .. item.group.icon .. ' - ' .. table.concat(item.group.titles, ', ')
-            end
+            if item then return item.pos .. ': ' .. item.group.icon .. '  ' .. table.concat(item.group.titles, ', ') end
           end,
           kind = 'edgy-group',
         },
         ---@param item? SelectionItem
         function(item)
-          if item then
-            require('edgy-group').open_group_index(item.pos, item.index)
-          end
+          if item then require('edgy-group').open_group_index(item.pos, item.index) end
         end
       )
     end

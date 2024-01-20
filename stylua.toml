@@ -3,7 +3,7 @@ indent_width = 2
 column_width = 120
 quote_style = "AutoPreferSingle"
 call_parentheses = "Always"
-collapse_simple_statement = "FunctionOnly"
+collapse_simple_statement = "ConditionalOnly"
 
 [sort_requires]
 enabled = true
