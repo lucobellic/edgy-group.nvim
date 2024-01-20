@@ -12,9 +12,9 @@
 
 ---
 
-Using **edgy-group** with icons in the top left corner of the bufferline.
+Using **edgy-group** with **bufferline** and **lualine**.
 
-![edgy-group](https://github.com/lucobellic/edgy-group.nvim/assets/6067072/a47a6e7f-17fb-4f2a-8116-904c89fa8da3)
+https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
 
 ---
 
