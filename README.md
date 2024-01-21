@@ -1,26 +1,25 @@
+ <!-- panvimdoc-ignore-start -->
+![Version](https://img.shields.io/github/v/tag/lucobellic/edgy-group.nvim?label=version&style=flat-square)
+![License](https://img.shields.io/github/license/lucobellic/edgy-group.nvim?style=flat-square)
+![Issues](https://img.shields.io/github/issues/lucobellic/edgy-group.nvim?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/lucobellic/edgy-group.nvim?style=flat-square)
+
 <h1 align="center">
-  🖇️ edgy-group.nvim
+🖇️ edgy-group.nvim
 </h1>
-
-<p align="center"><b>edgy-group.nvim</b> extends <b><a href=https://github.com/folke/edgy.nvim>edgy.nvim</a></b> by providing a simple method for organizing windows within the <b>edgebar</b> based on their title.</p>
-
----
 
 > [!IMPORTANT]
 > This plugin is intended for personal and demonstration purposes only and have a lot of limitations.<br/>
 > It is not recommended to use this plugin.
 
----
-
-Using **edgy-group** with **bufferline** and **lualine**.
-
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
+ <!-- panvimdoc-ignore-end -->
 
----
+[edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim)</b> by providing a simple method for organizing windows within **edgebar** based on their title.
 
 ## ✨ Features
 
-- Switch between groups of windows within the **edgebar**.
+- Switch between groups of windows within **edgebar**.
 - Add a command to navigate through groups of windows.
 - Allow the creation of custom icon indicators in the statusline, bufferline, etc.
 
@@ -140,11 +139,11 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
 }
 ```
 
-### Example with statusline
+### Statusline
 
-Here are some examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
+Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
 
-#### bufferline
+#### Bufferline
 
 ```lua
 {
@@ -165,7 +164,7 @@ Here are some examples of how to use **edgy-group.nvim** with [bufferline.nvim](
 }
 ```
 
-#### lualine
+#### Lualine
 
 ```lua
 {
