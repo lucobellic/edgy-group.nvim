@@ -1,0 +1,71 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Generator documentation
+      - name: panvimdoc
+        uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: edgy-group.nvim
+          version: "Neovim >= 0.8.0"
+          toc: true
+          demojify: true
+          treesitter: true
+          ignorerawblocks: true
+          dedupsubheadings: true
+          docmappingprojectname: true
+          shiftheadinglevelby: -1
+
+      # Push documentation update
+      - name: Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(build): auto-generate vimdoc"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+
+  # TODO: configure release process
+  # release:
+  #   name: release
+  #   if: ${{ github.ref == 'refs/heads/main' }}
+  #   needs:
+  #     - docs
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: google-github-actions/release-please-action@v3
+  #       id: release
+  #       with:
+  #         release-type: simple
+  #         package-name: edgy-group.nvim
+  #     - uses: actions/checkout@v3
+  #     - name: tag stable versions
+  #       if: ${{ steps.release.outputs.release_created }}
+  #       run: |
+  #         git config user.name github-actions[bot]
+  #         git config user.email github-actions[bot]@users.noreply.github.com
+  #         git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/google-github-actions/release-please-action.git"
+  #         git tag -d stable || true
+  #         git push origin :stable || true
+  #         git tag -a stable -m "Last Stable Release"
+  #         git push origin stable
