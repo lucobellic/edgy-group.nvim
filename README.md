@@ -34,7 +34,7 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
 
 ### Advice
 
-- It is preferable to use at least one **pinned** window with the **close_when_all_hidden** option set to **true** in order to prevent the **edgebar** from "blinking" when switching between groups.<br/>
+- It is preferable to use at least one **pinned** window with the **close_when_all_hidden** option set to **false** in order to prevent the **edgebar** from "blinking" when switching between groups.<br/>
   A possible solution would be to wait until at least one window is opened before closing any existing ones.
 
 ## ⚡️ Requirements
