@@ -1,4 +1,4 @@
-*edgy-group.nvim.txt*     For Neovim >= 0.8.0     Last change: 2024 January 21
+*edgy-group.nvim.txt*     For Neovim >= 0.8.0     Last change: 2024 January 23
 
 ==============================================================================
 Table of Contents                          *edgy-group.nvim-table-of-contents*
