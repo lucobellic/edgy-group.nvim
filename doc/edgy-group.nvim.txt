@@ -14,9 +14,9 @@ Table of Contents                          *edgy-group.nvim-table-of-contents*
 6. Example Setup                               |edgy-group.nvim-example-setup|
   - Statusline                      |edgy-group.nvim-example-setup-statusline|
 
-
-
   
+
+
 
 
 edgy-group.nvim <https://github.com/lucobellic/edgy-group.nvim>extends
