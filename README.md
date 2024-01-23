@@ -1,11 +1,6 @@
  <!-- panvimdoc-ignore-start -->
-![Version](https://img.shields.io/github/v/tag/lucobellic/edgy-group.nvim?label=version&style=flat-square)
-![License](https://img.shields.io/github/license/lucobellic/edgy-group.nvim?style=flat-square)
-![Issues](https://img.shields.io/github/issues/lucobellic/edgy-group.nvim?style=flat-square)
-![Last Commit](https://img.shields.io/github/last-commit/lucobellic/edgy-group.nvim?style=flat-square)
-
 <h1 align="center">
-🖇️ edgy-group.nvim
+  🖇️ edgy-group.nvim
 </h1>
 
 > [!IMPORTANT]
@@ -13,6 +8,13 @@
 > It is not recommended to use this plugin.
 
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
+
+<p align="center">
+  <img src="https://img.shields.io/github/v/tag/lucobellic/edgy-group.nvim?label=version&style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/github/license/lucobellic/edgy-group.nvim?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/github/issues/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Issues">
+  <img src="https://img.shields.io/github/last-commit/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Last Commit">
+</p>
  <!-- panvimdoc-ignore-end -->
 
 [edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim)</b> by providing a simple method for organizing windows within **edgebar** based on their title.
