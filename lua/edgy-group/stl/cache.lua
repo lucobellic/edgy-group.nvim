@@ -1,11 +1,15 @@
-local Group = require('edgy-group')
-
 -- TODO: Extend cache to not recompute highlight if selected_group didn't change
 -- Otherwise update the statusline directly after group change
+
+---@class EdgyGroup.Statusline.Cache.GroupIndex
+---@field position Edgy.Pos
+---@field index number
 
 ---@class EdgyGroup.Statusline.Cache
 ---@field opts EdgyGroup.Statusline.Opts
 ---@field status_lines table<Edgy.Pos, string[]>
+---@field pick_keys table<Edgy.Pos, string[]> pick keys for each position and group
+---@field key_to_group table<string, EdgyGroup.Statusline.Cache.GroupIndex> associate a key to a group
 local Cache = {}
 
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
@@ -13,8 +17,47 @@ local Cache = {}
 function Cache.new(groups, opts)
   local self = setmetatable({}, { __index = Cache })
   self.opts = opts
-  self.status_lines = self:build_cache(groups)
+  self.status_lines = self:build_status_lines(groups)
+  self:build_keys(groups)
   return self
+end
+
+-- Get a list of all keys not used by the user
+---@private
+---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
+---@return string[] available_keys keys not used by the user
+function Cache:get_available_keys(groups)
+  local user_keys = {}
+  for _, group in ipairs(groups) do
+    if group.pick_key then table.insert(user_keys, group.pick_key) end
+  end
+
+  local pick_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  local keys_table = {}
+  for i = 1, #pick_keys do
+    keys_table[i] = pick_keys:sub(i, i)
+  end
+
+  return vim.tbl_filter(function(key)
+    return not vim.tbl_contains(user_keys, key)
+  end, keys_table)
+end
+
+-- Build picking keys for each positions and group and associate them to the group
+---@private
+---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
+function Cache:build_keys(groups)
+  local available_keys = self:get_available_keys(groups)
+  self.pick_keys = {}
+  self.key_to_group = {}
+  for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
+    self.pick_keys[pos] = {}
+    for i, group in ipairs(groups[pos] and groups[pos].groups or {}) do
+      local key = group.pick_key or table.remove(available_keys, 1)
+      self.pick_keys[pos][i] = key
+      self.key_to_group[key] = { position = pos, index = i }
+    end
+  end
 end
 
 -- Create callback function on click if clickable
@@ -51,7 +94,7 @@ end
 ---@private
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 ---@return table<Edgy.Pos, string[]>
-function Cache:build_cache(groups)
+function Cache:build_status_lines(groups)
   local status_lines = {}
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
     status_lines[pos] = self:build_statusline(pos, groups[pos] and groups[pos].groups or {})
