@@ -5,6 +5,7 @@ local Groups = require('edgy-group.groups')
 ---@class EdgyGroup
 ---@field icon number
 ---@field titles string[]
+---@field pick_key? string Key to use for group pick.
 
 ---@class EdgyGroup.Statusline.Opts
 ---@field separators string[]
@@ -15,6 +16,8 @@ local Groups = require('edgy-group.groups')
 ---@class EdgyGroup.Statusline.Colors
 ---@field active string
 ---@field inactive string
+---@field pick_active string
+---@field pick_inactive string
 
 ---@class EdgyGroup.Opts
 ---@field groups table<Edgy.Pos, EdgyGroup[]>
@@ -35,6 +38,8 @@ local default_options = {
     colors = {
       active = 'Normal',
       inactive = 'Normal',
+      pick_active = 'PmenuSel',
+      pick_inactive = 'PmenuSel',
     },
   },
 }
