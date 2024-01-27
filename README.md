@@ -4,8 +4,9 @@
 </h1>
 
 > [!IMPORTANT]
-> This plugin is intended for personal and demonstration purposes only and have a lot of limitations.<br/>
-> It is not recommended to use this plugin.
+> This plugin is mainly for personal and demonstration purposes and have a lot of limitations.<br/>
+> Limited support will be provided for issues and pull requests.<br/>
+> I would prefer to have this plugin integrated directly into edgy.nvim.
 
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
 
@@ -23,7 +24,8 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
 
 - Switch between groups of windows within **edgebar**.
 - Add a command to navigate through groups of windows.
-- Allow the creation of custom icon indicators in the statusline, bufferline, etc.
+- Allow the creation of custom icon indicators in statusline, bufferline, etc.
+- Pick mode to select group from statusline
 
 ## ⚠️ Limitations
 
@@ -79,12 +81,30 @@ local default_options = {
     clickable = false, -- enable `open_group` on click
     colored = false, -- enable highlight support
     colors = { -- highlight colors
-      active = 'Normal',
-      inactive = 'Normal',
+      active = 'Normal', -- highlight color for open group
+      inactive = 'Normal', -- highlight color for closed group
+      pick_active = 'PmenuSel', -- highlight color for pick key for open group
+      pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
     },
   },
 }
 ```
+
+#### Groups
+
+```lua
+groups = {
+  right = { -- group position (right, left, bottom, top)
+    {
+      icon = '', -- icon used in statusline and vim.ui.select
+      titles = { 'Neo-Tree', 'Neo-Tree Buffers' }, -- list of titles from edgy.nvim
+      pick_key = 'f' -- key to pick a group in statusline
+    },
+  },
+}
+```
+
+Groups without pick_key will be assigned to the first available key in alphabetical order.
 
 ### 🔌 API
 
@@ -94,6 +114,7 @@ local default_options = {
 - **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group.
 - **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position.
 - **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string in statusline format for each group icons with optional highlight and click support.
+- **require('edgy-group.stl.statusline').pick(callback)** enable picking mode to select group from statusline.
 
 ## Example Setup
 
@@ -118,6 +139,13 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
       '<leader>eh',
       function() require('edgy-group').open_group_offset('left', -1) end,
       desc = 'Edgy Group Prev Left',
+    },
+    {
+      '<c-,>',
+      function()
+        require('edgy-group.stl.statusline').pick()
+      end,
+      desc = 'Edgy Group Pick',
     },
   },
   opts = {
@@ -183,5 +211,10 @@ Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github
     },
   },
 }
+```
 
+##### Picking
+
+```lua
+require('edgy-group.stl.statusline').pick(function() require('lualine').refresh() end)
 ```
