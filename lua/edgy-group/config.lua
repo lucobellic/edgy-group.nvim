@@ -3,7 +3,7 @@ local M = {}
 local Groups = require('edgy-group.groups')
 
 ---@class EdgyGroup
----@field icon number
+---@field icon string
 ---@field titles string[]
 ---@field pick_key? string Key to use for group pick.
 
