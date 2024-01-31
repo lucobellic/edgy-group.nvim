@@ -3,7 +3,7 @@ local Group = require('edgy-group')
 
 ---@class EdgyGroup.Statusline
 ---@field private cache EdgyGroup.Statusline.Cache
----@field private pick_mode boolean True when pick is active, false otherwise
+---@field private pick_mode boolean true when pick is active, false otherwise
 ------@diagnostic disable-next-line: missing-fields
 local M = {}
 

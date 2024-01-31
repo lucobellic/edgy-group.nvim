@@ -3,7 +3,7 @@ local Util = require('edgy.util')
 
 -- Define groups of edgebar views by title
 ---@class EdgyGroups
----@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> List of groups for each position
+---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
 local M = {}
 
 ---@param opts EdgyGroup.Opts

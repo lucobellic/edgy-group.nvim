@@ -1,6 +1,6 @@
 ---@class EdgyGroup.IndexedGroups
----@field selected_index number Index of the selected group
----@field groups EdgyGroup[] List of groups
+---@field selected_index number index of the selected group
+---@field groups EdgyGroup[] list of groups
 local M = {}
 
 ---@param opts EdgyGroup.IndexedGroups?
