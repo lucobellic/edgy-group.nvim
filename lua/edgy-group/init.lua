@@ -8,7 +8,7 @@ local M = {}
 
 ---@param opts EdgyGroup.Opts
 function M.setup(opts)
-  local parsed_opts = require('edgy-group.options').setup(opts)
+  local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
   require('edgy-group.stl.statusline').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
