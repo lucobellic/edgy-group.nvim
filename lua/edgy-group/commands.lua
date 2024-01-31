@@ -3,8 +3,8 @@ local Group = require('edgy-group')
 local M = {}
 
 ---@class SelectionItem
----@field pos Edgy.Pos Position of the group
----@field index number Relative index in the group
+---@field pos Edgy.Pos position of the group
+---@field index number relative index in the group
 ---@field group EdgyGroup
 
 -- Get a list of groups with relative index and position
