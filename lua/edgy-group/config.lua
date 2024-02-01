@@ -3,25 +3,25 @@ local M = {}
 local Groups = require('edgy-group.groups')
 
 ---@class EdgyGroup
----@field icon number
----@field titles string[]
+---@field icon string icon used in statusline and vim.ui.select
+---@field titles string[] list of titles from edgy.nvim
 ---@field pick_key? string Key to use for group pick.
 
 ---@class EdgyGroup.Statusline.Opts
----@field separators string[]
----@field clickable boolean
----@field colored boolean
----@field colors EdgyGroup.Statusline.Colors
+---@field separators { [1]: string, [2]: string } suffix and prefix separators between icons
+---@field clickable boolean enable `open_group` on click
+---@field colored boolean enable highlighting support
+---@field colors EdgyGroup.Statusline.Colors highlight colors for icon and pick key
 
 ---@class EdgyGroup.Statusline.Colors
----@field active string
----@field inactive string
----@field pick_active string
----@field pick_inactive string
+---@field active string highlight color for open group
+---@field inactive string highlight color for closed group
+---@field pick_active string highlight color for pick key for open group
+---@field pick_inactive string highlight color for pick key for closed group
 
 ---@class EdgyGroup.Opts
----@field groups table<Edgy.Pos, EdgyGroup[]>
----@field statusline EdgyGroup.Statusline.Opts
+---@field groups table<Edgy.Pos, EdgyGroup[]> list of groups for each position
+---@field statusline EdgyGroup.Statusline.Opts statusline options
 
 ---@type EdgyGroup.Opts
 local default_options = {

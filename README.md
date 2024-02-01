@@ -33,13 +33,18 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
 
 - All **edgy** windows require a unique **title** in order to create groups.
 - All **edgy** windows require an **open** command to open each window.
-- Opening a window with a function or command call will not automatically switch to the corresponding group.
-- Switching between groups always sets the cursor to one of the **edgebar** windows and does not restore the previous cursor position.
+- Opening a window with a function or command call will not automatically
+switch to the corresponding group.
+- Switching between groups always sets the cursor to one of the **edgebar**
+windows and does not restore the previous cursor position.
 
 ### Advice
 
-- It is preferable to use at least one **pinned** window with the **close_when_all_hidden** option set to **false** in order to prevent the **edgebar** from "blinking" when switching between groups.<br/>
-  A possible solution would be to wait until at least one window is opened before closing any existing ones.
+- It is preferable to use at least one **pinned** window with **close_when_all_hidden**
+option set to **false** in order to prevent **edgebar** from "blinking" when switching
+between groups.<br/>
+  A workaround would be to wait until at least one window is opened before closing
+any existing ones.
 
 ## ⚡️ Requirements
 
@@ -111,10 +116,14 @@ Groups without pick_key will be assigned to the first available key in alphabeti
 - **EdgyGroupSelect** select group to open with **vim.ui.select**.
 - **EdgyGroupNext position** open next group at given position.
 - **EdgyGroupPrev position** open previous group at given position.
-- **require('edgy-group').open_group_offset(position, offset)** open group with offset relative to the current group.
-- **require('edgy-group').open_group_index(position, index)** open group with index relative to the current position.
-- **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string in statusline format for each group icons with optional highlight and click support.
-- **require('edgy-group.stl.statusline').pick(callback)** enable picking mode to select group from statusline.
+- **require('edgy-group').open_group_offset(position, offset)**
+open group with offset relative to the current group.
+- **require('edgy-group').open_group_index(position, index)**
+open group with index relative to the current position.
+- **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string
+in statusline format for each group icons with optional highlight and click support.
+- **require('edgy-group.stl.statusline').pick(callback)**
+enable picking mode to select group from statusline.
 
 ## Example Setup
 
@@ -171,7 +180,8 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
 
 ### Statusline
 
-Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
+Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
+and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
 
 #### Bufferline
 
@@ -205,7 +215,11 @@ Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github
       lualine_c = {
         '%=',
         {
-          function() return table.concat(require('edgy-group.stl.statusline').get_statusline('bottom')) end,
+          function()
+            local stl = require('edgy-group.stl.statusline')
+            local bottom_line = stl.get_statusline('bottom')
+            return table.concat(bottom_line)
+          end,
         },
       },
     },

@@ -3,12 +3,12 @@ local Util = require('edgy.util')
 
 -- Define groups of edgebar views by title
 ---@class EdgyGroups
----@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> List of groups for each position
+---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
 local M = {}
 
 ---@param opts EdgyGroup.Opts
 function M.setup(opts)
-  local parsed_opts = require('edgy-group.options').setup(opts)
+  local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
   require('edgy-group.stl.statusline').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
