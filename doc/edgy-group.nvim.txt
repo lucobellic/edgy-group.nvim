@@ -1,4 +1,4 @@
-*edgy-group.nvim.txt*     For Neovim >= 0.8.0     Last change: 2024 January 27
+*edgy-group.nvim.txt*     For Neovim >= 0.8.0    Last change: 2024 February 01
 
 ==============================================================================
 Table of Contents                          *edgy-group.nvim-table-of-contents*
@@ -42,14 +42,19 @@ within the same **edgebar**.
 
 - All **edgy** windows require a unique **title** in order to create groups.
 - All **edgy** windows require an **open** command to open each window.
-- Opening a window with a function or command call will not automatically switch to the corresponding group.
-- Switching between groups always sets the cursor to one of the **edgebar** windows and does not restore the previous cursor position.
+- Opening a window with a function or command call will not automatically
+    switch to the corresponding group.
+- Switching between groups always sets the cursor to one of the **edgebar**
+    windows and does not restore the previous cursor position.
 
 
 ADVICE                                    *edgy-group.nvim-limitations-advice*
 
-- It is preferable to use at least one **pinned** window with the **close_when_all_hidden** option set to **false** in order to prevent the **edgebar** from "blinking" when switching between groups.
-    A possible solution would be to wait until at least one window is opened before closing any existing ones.
+- It is preferable to use at least one **pinned** window with **close_when_all_hidden**
+    option set to **false** in order to prevent **edgebar** from "blinking" when switching
+    between groups.
+    A workaround would be to wait until at least one window is opened before closing
+    any existing ones.
 
 
 ==============================================================================
@@ -131,10 +136,14 @@ API                                                *edgy-group.nvim-usage-api*
 - **EdgyGroupSelect** select group to open with **vim.ui.select**.
 - **EdgyGroupNext position** open next group at given position.
 - **EdgyGroupPrev position** open previous group at given position.
-- **require(‘edgy-group’).open_group_offset(position, offset)** open group with offset relative to the current group.
-- **require(‘edgy-group’).open_group_index(position, index)** open group with index relative to the current position.
-- **require(‘edgy-group.stl.statusline’).get_statusline(position)** get a list of string in statusline format for each group icons with optional highlight and click support.
-- **require(‘edgy-group.stl.statusline’).pick(callback)** enable picking mode to select group from statusline.
+- **require(‘edgy-group’).open_group_offset(position, offset)**
+    open group with offset relative to the current group.
+- **require(‘edgy-group’).open_group_index(position, index)**
+    open group with index relative to the current position.
+- **require(‘edgy-group.stl.statusline’).get_statusline(position)** get a list of string
+    in statusline format for each group icons with optional highlight and click support.
+- **require(‘edgy-group.stl.statusline’).pick(callback)**
+    enable picking mode to select group from statusline.
 
 
 ==============================================================================
@@ -232,7 +241,11 @@ LUALINE ~
           lualine_c = {
             '%=',
             {
-              function() return table.concat(require('edgy-group.stl.statusline').get_statusline('bottom')) end,
+              function()
+                local stl = require('edgy-group.stl.statusline')
+                local bottom_line = stl.get_statusline('bottom')
+                return table.concat(bottom_line)
+              end,
             },
           },
         },
