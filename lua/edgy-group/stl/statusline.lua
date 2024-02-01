@@ -46,9 +46,8 @@ end
 function M.get_statusline(position)
   local statusline = {}
   local edgebar = Config and Config.layout and Config.layout[position]
-  local g = Group.groups_by_pos
-  if edgebar then
-    local indexed_groups = g and g[position] or 1
+  local indexed_groups = Group.groups_by_pos and Group.groups_by_pos[position]
+  if edgebar and indexed_groups then
     for index, group_line in ipairs(M.cache.status_lines[position]) do
       local is_visible = edgebar.visible ~= 0 and index == indexed_groups.selected_index
       local highlight = M.get_highlight(is_visible)
