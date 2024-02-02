@@ -9,7 +9,7 @@
 ---@field opts EdgyGroup.Statusline.Opts
 ---@field status_lines table<Edgy.Pos, string[]>
 ---@field pick_keys table<Edgy.Pos, string[]> pick keys for each position and group
----@field key_to_group table<string, EdgyGroup.Statusline.Cache.GroupIndex> associate a key to a group
+---@field key_to_group table<string, EdgyGroup.Statusline.Cache.GroupIndex[]> associates a key with one or multiple groups
 local Cache = {}
 
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
@@ -50,12 +50,20 @@ function Cache:build_keys(groups)
   local available_keys = self:get_available_keys(groups)
   self.pick_keys = {}
   self.key_to_group = {}
+
+  -- Iterate over each position and group
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
     self.pick_keys[pos] = {}
     for i, group in ipairs(groups[pos] and groups[pos].groups or {}) do
+      -- Get the next available key or use the user defined one
       local key = group.pick_key or table.remove(available_keys, 1)
+
+      -- Save the key for the group position and index
       self.pick_keys[pos][i] = key
-      self.key_to_group[key] = { position = pos, index = i }
+
+      -- Associate the key to one or multiple group
+      if not self.key_to_group[key] then self.key_to_group[key] = {} end
+      table.insert(self.key_to_group[key], { position = pos, index = i })
     end
   end
 end

@@ -29,8 +29,7 @@ end
 function M.get_pick_text(is_visible, position, index)
   local pick = ''
   if M.pick_mode then
-    local pick_per_pos = M.cache.pick_keys[position]
-    local character = pick_per_pos[index] or ''
+    local character = M.cache.pick_keys[position] and M.cache.pick_keys[position][index] or ''
     local highlight = is_visible and M.cache.opts.colors.pick_active or M.cache.opts.colors.pick_inactive
     local pick_highlight = M.cache.opts.colored and '%#' .. highlight .. '#' or ''
     pick = pick_highlight .. character
@@ -58,10 +57,10 @@ function M.get_statusline(position)
   return statusline
 end
 
--- Find the group position and index for the given key
+-- Find one or multiple group positions and indices for the given key.
 ---@private
 ---@param key string
----@return EdgyGroup.Statusline.Cache.GroupIndex?
+---@return EdgyGroup.Statusline.Cache.GroupIndex[]?
 function M.find_pos_index(key)
   return M.cache.key_to_group[key] or {}
 end
@@ -71,7 +70,7 @@ end
 -- Optional callback could be used to trigger external plugin refresh/update
 ---@public
 ---@param callback? function Callback function to call after pick mode have been enabled
-M.pick = function(callback)
+function M.pick(callback)
   M.pick_mode = true
 
   -- callback function before redraw
@@ -84,8 +83,9 @@ M.pick = function(callback)
   -- Wait for key and open the corresponding group
   local key = vim.fn.getcharstr()
   if key then
-    local group_index = M.find_pos_index(key)
-    if group_index then pcall(Group.open_group_index, group_index.position, group_index.index) end
+    for _, group_index in ipairs(M.find_pos_index(key) or {}) do
+      pcall(Group.open_group_index, group_index.position, group_index.index)
+    end
   end
 
   -- Disable pick mode and redraw
