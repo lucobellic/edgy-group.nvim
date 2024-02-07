@@ -61,6 +61,7 @@ function M.close_edgebar_views_by_titles(pos, titles)
 end
 
 -- Open edgebar views for the given position and title
+-- Do not open a view if at least one window is already open
 ---@param pos Edgy.Pos
 ---@param titles string[]
 function M.open_edgebar_views_by_titles(pos, titles)
@@ -68,7 +69,11 @@ function M.open_edgebar_views_by_titles(pos, titles)
   if edgebar ~= nil then
     local views = filter_by_titles(edgebar.views, titles)
     for _, view in ipairs(views) do
-      open(view)
+      -- Skip already open views
+      local is_open = vim.tbl_contains(view.wins, function(win)
+        return win:is_valid()
+      end, { predicate = true })
+      if not is_open then open(view) end
     end
   end
 end
