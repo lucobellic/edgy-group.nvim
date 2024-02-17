@@ -5,7 +5,7 @@ local Groups = require('edgy-group.groups')
 ---@class EdgyGroup
 ---@field icon string icon used in statusline and vim.ui.select
 ---@field titles string[] list of titles from edgy.nvim
----@field pick_key? string Key to use for group pick.
+---@field pick_key? string Key to use for group pick
 
 ---@class EdgyGroup.Statusline.Opts
 ---@field separators { [1]: string, [2]: string } suffix and prefix separators between icons
@@ -22,6 +22,7 @@ local Groups = require('edgy-group.groups')
 ---@class EdgyGroup.Opts
 ---@field groups table<Edgy.Pos, EdgyGroup[]> list of groups for each position
 ---@field statusline EdgyGroup.Statusline.Opts statusline options
+---@field toggle boolean toggle a group if at least one window in the group is open
 
 ---@type EdgyGroup.Opts
 local default_options = {
@@ -42,11 +43,13 @@ local default_options = {
       pick_inactive = 'PmenuSel',
     },
   },
+  toggle = true,
 }
 
 ---@class EdgyGroups.Opts.Parsed
 ---@field groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 ---@field statusline EdgyGroup.Statusline.Opts
+---@field toggle boolean
 
 ---@param opts EdgyGroup.Opts?
 ---@return EdgyGroups.Opts.Parsed
