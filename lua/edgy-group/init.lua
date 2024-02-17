@@ -4,12 +4,14 @@ local Util = require('edgy.util')
 -- Define groups of edgebar views by title
 ---@class EdgyGroups
 ---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
+---@field toggle boolean close group if at least one window in the group is open
 local M = {}
 
 ---@param opts EdgyGroup.Opts
 function M.setup(opts)
   local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
+  M.toggle = parsed_opts.toggle
   require('edgy-group.stl.statusline').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
 end
@@ -61,6 +63,7 @@ function M.close_edgebar_views_by_titles(pos, titles)
 end
 
 -- Open edgebar views for the given position and title
+-- Do not open a view if at least one window is already open
 ---@param pos Edgy.Pos
 ---@param titles string[]
 function M.open_edgebar_views_by_titles(pos, titles)
@@ -68,9 +71,27 @@ function M.open_edgebar_views_by_titles(pos, titles)
   if edgebar ~= nil then
     local views = filter_by_titles(edgebar.views, titles)
     for _, view in ipairs(views) do
-      open(view)
+      -- Skip already open views
+      local is_open = vim.tbl_contains(view.wins, function(win)
+        return win:is_valid()
+      end, { predicate = true })
+      if not is_open then open(view) end
     end
   end
+end
+
+-- Check if at least one window is open for the given position and titles
+---@param pos Edgy.Pos
+---@param titles string[]
+---@return boolean is_open true if at least one window is open
+function M.is_one_window_open(pos, titles)
+  local edgebar = Config.layout[pos]
+  local views = edgebar and edgebar.views or {}
+  return vim.tbl_contains(filter_by_titles(views, titles), function(view)
+    return vim.tbl_contains(view.wins, function(win)
+      return win:is_valid()
+    end, { predicate = true })
+  end, { predicate = true })
 end
 
 -- Open group at index at given position
@@ -80,16 +101,21 @@ function M.open_group_index(pos, index)
   local g = M.groups_by_pos[pos]
   local indexed_group = g and g.groups[index]
   if indexed_group then
-    local other_groups = vim.tbl_filter(function(group)
-      return group.icon ~= indexed_group.icon
-    end, g.groups)
-    local other_groups_titles = vim.tbl_map(function(group)
-      return group.titles
-    end, other_groups)
+    -- Close all windows if at least one window of the currently selection group is open
+    if M.toggle and index == g.selected_index and M.is_one_window_open(pos, indexed_group.titles) then
+      M.close_edgebar_views_by_titles(pos, indexed_group.titles)
+    else
+      local other_groups = vim.tbl_filter(function(group)
+        return group.icon ~= indexed_group.icon
+      end, g.groups)
+      local other_groups_titles = vim.tbl_map(function(group)
+        return group.titles
+      end, other_groups)
 
-    M.open_edgebar_views_by_titles(pos, indexed_group.titles)
-    M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
-    g.selected_index = index
+      M.open_edgebar_views_by_titles(pos, indexed_group.titles)
+      M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
+      g.selected_index = index
+    end
   end
 end
 
