@@ -109,6 +109,7 @@ OPTIONS                                        *edgy-group.nvim-usage-options*
           pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
         },
       },
+      toggle = true, -- toggle group when at least one window is already open
     }
 <
 
