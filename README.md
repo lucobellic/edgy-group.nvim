@@ -18,7 +18,7 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
 </p>
  <!-- panvimdoc-ignore-end -->
 
-[edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim)</b> by providing a simple method for organizing windows within **edgebar** based on their title.
+[edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim) by providing a simple method for organizing windows within **edgebar** based on their title.
 
 ## ✨ Features
 
@@ -29,7 +29,9 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
 
 ## ⚠️ Limitations
 
-**edgy-group.nvim** does not introduce a new **edgebar** for each position. It is a simple wrapper around **edgy.nvim** that is used to open and close windows within the same **edgebar**.
+**edgy-group.nvim** does not introduce a new **edgebar** for each position.
+It is a simple wrapper around **edgy.nvim** that is used
+to open and close windows within the same **edgebar**.
 
 - All **edgy** windows require a unique **title** in order to create groups.
 - All **edgy** windows require an **open** command to open each window.
@@ -92,6 +94,7 @@ local default_options = {
       pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
     },
   },
+  toggle = true, -- toggle group when at least one window is already open
 }
 ```
 
