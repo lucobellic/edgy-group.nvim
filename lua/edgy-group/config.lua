@@ -7,11 +7,19 @@ local Groups = require('edgy-group.groups')
 ---@field titles string[] list of titles from edgy.nvim
 ---@field pick_key? string Key to use for group pick
 
+---@alias EdgyGroup.PickKeyPose
+---| '"left"' # pick key at the left of the icon, before separators
+---| '"right"' # pick key at the right of the icon, after separators
+---| '"left_separator"' # replace the left separator
+---| '"right_separator"' # replace the right separator
+---| '"icon"' # replace group icon
+
 ---@class EdgyGroup.Statusline.Opts
 ---@field separators { [1]: string, [2]: string } suffix and prefix separators between icons
 ---@field clickable boolean enable `open_group` on click
 ---@field colored boolean enable highlighting support
 ---@field colors EdgyGroup.Statusline.Colors highlight colors for icon and pick key
+---@field pick_key_pose EdgyGroup.PickKeyPose position of the pick key, which could replace the icon or the separators
 
 ---@class EdgyGroup.Statusline.Colors
 ---@field active string highlight color for open group
@@ -42,6 +50,7 @@ local default_options = {
       pick_active = 'PmenuSel',
       pick_inactive = 'PmenuSel',
     },
+    pick_key_pose = 'left',
   },
   toggle = true,
 }
