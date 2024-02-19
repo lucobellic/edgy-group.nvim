@@ -5,9 +5,16 @@
 ---@field position Edgy.Pos
 ---@field index number
 
+---@class EdgyGroup.Statusline.Cache.Line
+---@field callback string
+---@field left_sep string
+---@field icon string
+---@field right_sep string
+---@field end_callback string
+
 ---@class EdgyGroup.Statusline.Cache
 ---@field opts EdgyGroup.Statusline.Opts
----@field status_lines table<Edgy.Pos, string[]>
+---@field statuslines table<Edgy.Pos, EdgyGroup.Statusline.Cache.Line[]>
 ---@field pick_keys table<Edgy.Pos, string[]> pick keys for each position and group
 ---@field key_to_group table<string, EdgyGroup.Statusline.Cache.GroupIndex[]> associates a key with one or multiple groups
 local Cache = {}
@@ -17,7 +24,7 @@ local Cache = {}
 function Cache.new(groups, opts)
   local self = setmetatable({}, { __index = Cache })
   self.opts = opts
-  self.status_lines = self:build_status_lines(groups)
+  self.statuslines = self:build_statuslines(groups)
   self:build_keys(groups)
   return self
 end
@@ -79,30 +86,29 @@ function Cache:get_callback(position, index)
 end
 
 ---@private
----@param group EdgyGroup
-function Cache:get_text(group)
-  return self.opts.separators[1] .. group.icon .. self.opts.separators[2]
-end
-
----@private
 ---@param position Edgy.Pos
 ---@param groups EdgyGroup[]
----@return string[]
+---@return EdgyGroup.Statusline.Cache.Line
 function Cache:build_statusline(position, groups)
   local elements = {}
   for index, group in ipairs(groups or {}) do
     local callback = self:get_callback(position, index)
     local end_callback = self.opts.clickable and '%T' or ''
-    local text = self:get_text(group)
-    table.insert(elements, callback .. text .. end_callback)
+    table.insert(elements, {
+      callback = callback,
+      left_sep = self.opts.separators[1],
+      icon = group.icon,
+      right_sep = self.opts.separators[2],
+      end_callback = end_callback,
+    })
   end
   return elements
 end
 
 ---@private
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
----@return table<Edgy.Pos, string[]>
-function Cache:build_status_lines(groups)
+---@return table<Edgy.Pos, EdgyGroup.Statusline.Cache.Line>
+function Cache:build_statuslines(groups)
   local status_lines = {}
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
     status_lines[pos] = self:build_statusline(pos, groups[pos] and groups[pos].groups or {})
