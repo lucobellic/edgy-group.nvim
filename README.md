@@ -36,17 +36,17 @@ to open and close windows within the same **edgebar**.
 - All **edgy** windows require a unique **title** in order to create groups.
 - All **edgy** windows require an **open** command to open each window.
 - Opening a window with a function or command call will not automatically
-switch to the corresponding group.
+  switch to the corresponding group.
 - Switching between groups always sets the cursor to one of the **edgebar**
-windows and does not restore the previous cursor position.
+  windows and does not restore the previous cursor position.
 
 ### Advice
 
 - It is preferable to use at least one **pinned** window with **close_when_all_hidden**
-option set to **false** in order to prevent **edgebar** from "blinking" when switching
-between groups.<br/>
+  option set to **false** in order to prevent **edgebar** from "blinking" when switching
+  between groups.<br/>
   A workaround would be to wait until at least one window is opened before closing
-any existing ones.
+  any existing ones.
 
 ## ⚡️ Requirements
 
@@ -85,7 +85,7 @@ local default_options = {
   statusline = {
     -- suffix and prefix separators between icons
     separators = { ' ', ' ' },
-    clickable = false, -- enable `open_group` on click
+    clickable = false, -- open group on click
     colored = false, -- enable highlight support
     colors = { -- highlight colors
       active = 'Normal', -- highlight color for open group
@@ -93,6 +93,11 @@ local default_options = {
       pick_active = 'PmenuSel', -- highlight color for pick key for open group
       pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
     },
+    -- pick key position: left, right, left_separator, right_separator, icon
+    -- left: before left separator
+    -- right: after right separator
+    -- left_separator, right_separator and icon: replace the corresponding element
+    pick_key_pose = 'left',
   },
   toggle = true, -- toggle group when at least one window is already open
 }
@@ -120,13 +125,13 @@ Groups without pick_key will be assigned to the first available key in alphabeti
 - **EdgyGroupNext position** open next group at given position.
 - **EdgyGroupPrev position** open previous group at given position.
 - **require('edgy-group').open_group_offset(position, offset)**
-open group with offset relative to the current group.
+  open group with offset relative to the current group.
 - **require('edgy-group').open_group_index(position, index)**
-open group with index relative to the current position.
+  open group with index relative to the current position.
 - **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string
-in statusline format for each group icons with optional highlight and click support.
+  in statusline format for each group icons with optional highlight and click support.
 - **require('edgy-group.stl.statusline').pick(callback)**
-enable picking mode to select group from statusline.
+  enable picking mode to select group from statusline.
 
 ## Example Setup
 
@@ -140,7 +145,7 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
 {
   "lucobellic/edgy-group.nvim",
   event = "VeryLazy"
-  dependencies = {"folke/edgy.nvim"}
+  dependencies = { "folke/edgy.nvim" },
   keys = {
     {
       '<leader>el',
@@ -179,12 +184,48 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
     },
   }
 }
+
+-- edgy configuration (simplified)
+{
+  "folke/edgy.nvim",
+  -- ...
+  opts = {
+    -- ...
+    left = {
+      {
+        title = "Neo-Tree",
+        ft = "neo-tree",
+        filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
+        size = { height = 0.5 },
+      },
+      {
+        title = "Neo-Tree Buffers",
+        ft = "neo-tree",
+        filter = function(buf) return vim.b[buf].neo_tree_source == "buffers" end,
+        open = "Neotree position=top buffers",
+      },
+      {
+        title = "Neo-Tree Git",
+        ft = "neo-tree",
+        filter = function(buf) return vim.b[buf].neo_tree_source == "git_status" end,
+        open = "Neotree position=right git_status",
+      },
+      {
+        ft = "Outline",
+        open = "SymbolsOutlineOpen",
+      },
+    },
+  },
+}
 ```
 
 ### Statusline
 
-Examples of how to use **edgy-group.nvim** with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
-and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group icons with highlight and click support.
+Examples of how to use **edgy-group.nvim** with
+[bufferline.nvim](https://github.com/akinsho/bufferline.nvim),
+[lualine.nvim](https://github.com/nvim-lualine/lualine.nvim),
+[heirline.nvim](https://github.com/rebelot/heirline.nvim)
+to add group icons with highlight and click support.
 
 #### Bufferline
 
@@ -227,6 +268,18 @@ and [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) to add group ic
       },
     },
   },
+}
+```
+
+#### Heirline
+
+``` lua
+local EdgyGroup = {
+  provider = function()
+    local stl = require('edgy-group.stl.statusline')
+    local bottom_line = stl.get_statusline('bottom')
+    return table.concat(bottom_line)
+  end
 }
 ```
 
