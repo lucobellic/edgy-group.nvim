@@ -81,7 +81,7 @@ local default_options = {
     bottom = {},
     top = {},
   },
-  -- configuration for `require('edgy-group.stl.statusline').get_statusline(pos)`
+  -- configuration for `require('edgy-group.stl').get_statusline(pos)`
   statusline = {
     -- suffix and prefix separators between icons
     separators = { ' ', ' ' },
@@ -128,9 +128,9 @@ Groups without pick_key will be assigned to the first available key in alphabeti
   open group with offset relative to the current group.
 - **require('edgy-group').open_group_index(position, index)**
   open group with index relative to the current position.
-- **require('edgy-group.stl.statusline').get_statusline(position)** get a list of string
+- **require('edgy-group.stl').get_statusline(position)** get a list of string
   in statusline format for each group icons with optional highlight and click support.
-- **require('edgy-group.stl.statusline').pick(callback)**
+- **require('edgy-group.stl').pick(callback)**
   enable picking mode to select group from statusline.
 
 ## Example Setup
@@ -160,7 +160,7 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
     {
       '<c-,>',
       function()
-        require('edgy-group.stl.statusline').pick()
+        require('edgy-group.stl').pick()
       end,
       desc = 'Edgy Group Pick',
     },
@@ -197,6 +197,7 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
         ft = "neo-tree",
         filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
         size = { height = 0.5 },
+        open = "Neotree position=left filesystem",
       },
       {
         title = "Neo-Tree Buffers",
@@ -239,7 +240,7 @@ to add group icons with highlight and click support.
         left = function()
           return vim.tbl_map(
             function(item) return { text = item } end,
-            require('edgy-group.stl.statusline').get_statusline('left')
+            require('edgy-group.stl').get_statusline('left')
           )
         end,
       },
@@ -260,7 +261,7 @@ to add group icons with highlight and click support.
         '%=',
         {
           function()
-            local stl = require('edgy-group.stl.statusline')
+            local stl = require('edgy-group.stl')
             local bottom_line = stl.get_statusline('bottom')
             return table.concat(bottom_line)
           end,
@@ -273,18 +274,22 @@ to add group icons with highlight and click support.
 
 #### Heirline
 
-``` lua
+```lua
 local EdgyGroup = {
   provider = function()
-    local stl = require('edgy-group.stl.statusline')
+    local stl = require('edgy-group.stl')
     local bottom_line = stl.get_statusline('bottom')
     return table.concat(bottom_line)
   end
 }
 ```
 
-##### Picking
+#### Picking
 
 ```lua
-require('edgy-group.stl.statusline').pick(function() require('lualine').refresh() end)
+-- default
+require('edgy-group.stl').pick()
+
+-- with lualine add a refresh callback
+require('edgy-group.stl').pick(function() require('lualine').refresh() end)
 ```

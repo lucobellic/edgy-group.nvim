@@ -12,7 +12,7 @@ function M.setup(opts)
   local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
   M.toggle = parsed_opts.toggle
-  require('edgy-group.stl.statusline').setup(parsed_opts.groups, parsed_opts.statusline)
+  require('edgy-group.stl').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
 end
 
