@@ -13,14 +13,24 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check . -g '*.lua' -g '!deps/'
+
   docs:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    # if: ${{ github.ref == 'refs/heads/main' }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Generator documentation
       - name: panvimdoc
@@ -34,6 +44,7 @@ jobs:
           ignorerawblocks: true
           dedupsubheadings: true
           docmappingprojectname: true
+          titledatepattern: ""
           shiftheadinglevelby: -1
 
       # Push documentation update
@@ -45,27 +56,26 @@ jobs:
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
 
-  # TODO: configure release process
-  # release:
-  #   name: release
-  #   if: ${{ github.ref == 'refs/heads/main' }}
-  #   needs:
-  #     - docs
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: google-github-actions/release-please-action@v3
-  #       id: release
-  #       with:
-  #         release-type: simple
-  #         package-name: edgy-group.nvim
-  #     - uses: actions/checkout@v3
-  #     - name: tag stable versions
-  #       if: ${{ steps.release.outputs.release_created }}
-  #       run: |
-  #         git config user.name github-actions[bot]
-  #         git config user.email github-actions[bot]@users.noreply.github.com
-  #         git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/google-github-actions/release-please-action.git"
-  #         git tag -d stable || true
-  #         git push origin :stable || true
-  #         git tag -a stable -m "Last Stable Release"
-  #         git push origin stable
+  release:
+    name: release
+    # if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: simple
+          package-name: edgy-group.nvim
+      - uses: actions/checkout@v3
+      - name: tag stable versions
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/google-github-actions/release-please-action.git"
+          git tag -d stable || true
+          git push origin :stable || true
+          git tag -a stable -m "Last Stable Release"
+          git push origin stable
