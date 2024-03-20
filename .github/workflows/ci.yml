@@ -37,14 +37,14 @@ jobs:
         uses: kdheepak/panvimdoc@main
         with:
           vimdoc: edgy-group.nvim
-          version: "Neovim >= 0.8.0"
+          version: "Neovim >= 0.9.0"
           toc: true
           demojify: true
           treesitter: true
           ignorerawblocks: true
           dedupsubheadings: true
           docmappingprojectname: true
-          titledatepattern: ""
+          titledatepattern: "%Y"
           shiftheadinglevelby: -1
 
       # Push documentation update
