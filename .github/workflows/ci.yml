@@ -68,6 +68,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/release-please-config.json
+          manifest-file: .github/.release-please-manifest.json
           target-branch: tmp-test-ci
       # - uses: actions/checkout@v3
       # - name: tag stable versions
