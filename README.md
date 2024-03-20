@@ -4,9 +4,9 @@
 </h1>
 
 > [!IMPORTANT]
-> This plugin is mainly for personal and demonstration purposes and have a lot of limitations.<br/>
-> Limited support will be provided for issues and pull requests.<br/>
-> I would prefer to have this plugin integrated directly into edgy.nvim.
+> This plugin is mainly for personal and demonstration purposes and have a lot of limitations.  
+> Limited support will be provided for issues and pull requests.  
+> I would prefer to have this plugin integrated directly into edgy.  
 
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
 
@@ -44,7 +44,7 @@ to open and close windows within the same **edgebar**.
 
 - It is preferable to use at least one **pinned** window with **close_when_all_hidden**
   option set to **false** in order to prevent **edgebar** from "blinking" when switching
-  between groups.<br/>
+  between groups.  
   A workaround would be to wait until at least one window is opened before closing
   any existing ones.
 
@@ -136,7 +136,7 @@ Groups without pick_key will be assigned to the first available key in alphabeti
 ## Example Setup
 
 > [!WARNING]
-> Only groups with a provided title will be displayed.<br/>
+> Only groups with a provided title will be displayed.  
 > A default group will not be created if titles from edgy are missing.
 
 Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:

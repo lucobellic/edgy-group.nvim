@@ -3,6 +3,7 @@
     ".": {
       "release-type": "simple",
       "package-name": "edgy-group.nvim",
+      "include-component-in-tag": false,
       "bump-patch-for-minor-pre-major": true,
       "bump-minor-pre-major": true
     }
