@@ -68,6 +68,7 @@ jobs:
         with:
           release-type: simple
           package-name: edgy-group.nvim
+          bump-minor-pre-major: true
       - uses: actions/checkout@v3
       - name: tag stable versions
         if: ${{ steps.release.outputs.release_created }}
