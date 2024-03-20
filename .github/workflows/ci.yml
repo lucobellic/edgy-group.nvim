@@ -59,6 +59,7 @@ jobs:
   release:
     name: release
     # if: ${{ github.ref == 'refs/heads/main' }}
+    #
     needs:
       - docs
     runs-on: ubuntu-latest
