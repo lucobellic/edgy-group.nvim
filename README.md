@@ -1,4 +1,4 @@
- <!-- panvimdoc-ignore-start -->
+<!-- panvimdoc-ignore-start -->
 <h1 align="center">
   🖇️ edgy-group.nvim
 </h1>
@@ -16,7 +16,26 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
   <img src="https://img.shields.io/github/issues/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Issues">
   <img src="https://img.shields.io/github/last-commit/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Last Commit">
 </p>
- <!-- panvimdoc-ignore-end -->
+
+<!--toc:start-->
+- [✨ Features](#features)
+- [⚠️ Limitations](#️-limitations)
+  - [Advice](#advice)
+- [⚡️ Requirements](#️-requirements)
+- [📦️ Installation](#📦️-installation)
+- [🚀️ Usage](#🚀️-usage)
+  - [🎛️ Options](#🎛️-options)
+    - [Groups](#groups)
+  - [🔌 API](#🔌-api)
+- [Example Setup](#example-setup)
+  - [Statusline](#statusline)
+    - [Bufferline](#bufferline)
+    - [Lualine](#lualine)
+    - [Heirline](#heirline)
+    - [Picking](#picking)
+<!--toc:end-->
+
+<!-- panvimdoc-ignore-end -->
 
 [edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim) by providing a simple method for organizing windows within **edgebar** based on their title.
 
