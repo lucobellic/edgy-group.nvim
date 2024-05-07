@@ -20,6 +20,7 @@ local Groups = require('edgy-group.groups')
 ---@field colored boolean enable highlighting support
 ---@field colors EdgyGroup.Statusline.Colors highlight colors for icon and pick key
 ---@field pick_key_pose EdgyGroup.PickKeyPose position of the pick key, which could replace the icon or the separators
+---@field pick_function? fun(key: string) override the behavior of the pick function when a key is pressed.
 
 ---@class EdgyGroup.Statusline.Colors
 ---@field active string highlight color for open group
@@ -51,6 +52,7 @@ local default_options = {
       pick_inactive = 'PmenuSel',
     },
     pick_key_pose = 'left',
+    pick_function = nil,
   },
   toggle = true,
 }

@@ -5,6 +5,7 @@ local Util = require('edgy.util')
 ---@class EdgyGroups
 ---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
 ---@field toggle boolean close group if at least one window in the group is open
+---@field pick_function? fun(key: string) override the behavior of the pick function when a key is pressed.
 local M = {}
 
 ---@param opts EdgyGroup.Opts
@@ -12,6 +13,7 @@ function M.setup(opts)
   local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
   M.toggle = parsed_opts.toggle
+  M.pick_function = parsed_opts.statusline.pick_function
   require('edgy-group.stl').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
 end
