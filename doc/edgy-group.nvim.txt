@@ -12,14 +12,9 @@ Table of Contents                          *edgy-group.nvim-table-of-contents*
   - Options                                    |edgy-group.nvim-usage-options|
   - API                                            |edgy-group.nvim-usage-api|
 6. Example Setup                               |edgy-group.nvim-example-setup|
+  - CustomPicker Behavior|edgy-group.nvim-example-setup-custompicker-behavior|
   - Statusline                      |edgy-group.nvim-example-setup-statusline|
-
-  
-
-
-
-
-edgy-group.nvim <https://github.com/lucobellic/edgy-group.nvim>extends
+edgy-group.nvim <https://github.com/lucobellic/edgy-group.nvim> extends
 edgy.nvim <https://github.com/folke/edgy.nvim> by providing a simple method for
 organizing windows within **edgebar** based on their title.
 
@@ -113,6 +108,7 @@ OPTIONS                                        *edgy-group.nvim-usage-options*
         -- right: after right separator
         -- left_separator, right_separator and icon: replace the corresponding element
         pick_key_pose = 'left',
+        pick_function = nil, -- optional function to override default behavior
       },
       toggle = true, -- toggle group when at least one window is already open
     }
@@ -240,9 +236,42 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**
 <
 
 
+CUSTOMPICKER BEHAVIOR    *edgy-group.nvim-example-setup-custompicker-behavior*
+
+Optionally create a custom picker function to define your own behavior when
+selecting a group by key.
+
+- Default behavior call `open_group_index` for each group with the same key
+
+>lua
+    opts = {
+      pick_function = function(key)
+        local edgy_group = require('edgy-group')
+        for _, group in ipairs(edgy_group.get_groups_by_key(key)) do
+          pcall(edgy_group.open_group_index, group.position, group.index)
+        end
+      end,
+    }
+<
+
+- Use upper case key to focus all element instead of toggling
+
+>lua
+    opts = {
+      pick_function = function(key)
+        local toggle = not key:match('%u')
+        local edgy_group = require('edgy-group')
+        for _, group in ipairs(edgy_group.get_groups_by_key(key:lower())) do
+          pcall(edgy_group.open_group_index, group.position, group.index, toggle)
+        end
+      end,
+    }
+<
+
+
 STATUSLINE                          *edgy-group.nvim-example-setup-statusline*
 
-Examplesof how to use **edgy-group.nvim** with bufferline.nvim
+Examples of how to use **edgy-group.nvim** with bufferline.nvim
 <https://github.com/akinsho/bufferline.nvim>, lualine.nvim
 <https://github.com/nvim-lualine/lualine.nvim>, heirline.nvim
 <https://github.com/rebelot/heirline.nvim> to add group icons with highlight
