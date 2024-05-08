@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.1](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.0...v0.4.1) (2024-05-08)
+
+
+### Features
+
+* add get_groups_by_key function ([77c8b56](https://github.com/lucobellic/edgy-group.nvim/commit/77c8b568855074d38d4c1837749fa68839517766))
+* add optional toggle option to open_group_index ([c00f4d3](https://github.com/lucobellic/edgy-group.nvim/commit/c00f4d39e8cdc84a91462f0ab24ee841a58ff397))
+* add picking function override ([18a4c82](https://github.com/lucobellic/edgy-group.nvim/commit/18a4c82a9f154fdde5debda55349a290daae5f1d))
+
 ## [0.4.0](https://github.com/lucobellic/edgy-group.nvim/compare/edgy-group.nvim-v0.3.4...edgy-group.nvim-v0.4.0) (2024-03-20)
 
 
