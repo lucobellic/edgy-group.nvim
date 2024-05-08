@@ -5,6 +5,7 @@ local Util = require('edgy.util')
 ---@class EdgyGroups
 ---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
 ---@field toggle boolean close group if at least one window in the group is open
+---@field pick_function? fun(key: string) override the behavior of the pick function when a key is pressed.
 local M = {}
 
 ---@param opts EdgyGroup.Opts
@@ -12,8 +13,27 @@ function M.setup(opts)
   local parsed_opts = require('edgy-group.config').setup(opts)
   M.groups_by_pos = parsed_opts.groups
   M.toggle = parsed_opts.toggle
+  M.pick_function = parsed_opts.statusline.pick_function
   require('edgy-group.stl').setup(parsed_opts.groups, parsed_opts.statusline)
   require('edgy-group.commands').setup()
+end
+
+---@class EdgyGroup.Indexed
+---@field position Edgy.Pos position of the group
+---@field index number index of the group at position
+---@field group EdgyGroup
+
+-- Get list of EdgyGroup with position by key
+---@param key string key to pick a group
+---@return EdgyGroup.Indexed[]
+function M.get_groups_by_key(key)
+  local groups_with_pos = {}
+  for pos, indexed_groups in pairs(M.groups_by_pos) do
+    for i, group in ipairs(indexed_groups.groups) do
+      if group.pick_key == key then table.insert(groups_with_pos, { position = pos, group = group, index = i }) end
+    end
+  end
+  return groups_with_pos
 end
 
 -- Filter views by title
@@ -97,12 +117,14 @@ end
 -- Open group at index at given position
 ---@param pos Edgy.Pos
 ---@param index number Index relative to the group at given position
-function M.open_group_index(pos, index)
+---@param toggle? boolean either to toggle already selected group or not
+function M.open_group_index(pos, index, toggle)
   local g = M.groups_by_pos[pos]
   local indexed_group = g and g.groups[index]
   if indexed_group then
     -- Close all windows if at least one window of the currently selection group is open
-    if M.toggle and index == g.selected_index and M.is_one_window_open(pos, indexed_group.titles) then
+    local toggle_edgebar = toggle == nil and M.toggle or toggle
+    if toggle_edgebar and index == g.selected_index and M.is_one_window_open(pos, indexed_group.titles) then
       M.close_edgebar_views_by_titles(pos, indexed_group.titles)
     else
       local other_groups = vim.tbl_filter(function(group)

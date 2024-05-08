@@ -1,12 +1,7 @@
- <!-- panvimdoc-ignore-start -->
+<!-- panvimdoc-ignore-start -->
 <h1 align="center">
   🖇️ edgy-group.nvim
 </h1>
-
-> [!IMPORTANT]
-> This plugin is mainly for personal and demonstration purposes and have a lot of limitations.  
-> Limited support will be provided for issues and pull requests.  
-> I would prefer to have this plugin integrated directly into edgy.  
 
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
 
@@ -16,7 +11,27 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
   <img src="https://img.shields.io/github/issues/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Issues">
   <img src="https://img.shields.io/github/last-commit/lucobellic/edgy-group.nvim?style=for-the-badge" alt="Last Commit">
 </p>
- <!-- panvimdoc-ignore-end -->
+
+<!--toc:start-->
+- [✨ Features](#features)
+- [⚠️ Limitations](#️-limitations)
+  - [Advice](#advice)
+- [⚡️ Requirements](#️-requirements)
+- [📦️ Installation](#📦️-installation)
+- [🚀️ Usage](#🚀️-usage)
+  - [🎛️ Options](#🎛️-options)
+    - [Groups](#groups)
+  - [🔌 API](#🔌-api)
+- [Example Setup](#example-setup)
+  - [Custom Picker Behavior](#custom-picker-behavior)
+  - [Statusline](#statusline)
+    - [Bufferline](#bufferline)
+    - [Lualine](#lualine)
+    - [Heirline](#heirline)
+    - [Picking](#picking)
+<!--toc:end-->
+
+<!-- panvimdoc-ignore-end -->
 
 [edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim) by providing a simple method for organizing windows within **edgebar** based on their title.
 
@@ -98,6 +113,7 @@ local default_options = {
     -- right: after right separator
     -- left_separator, right_separator and icon: replace the corresponding element
     pick_key_pose = 'left',
+    pick_function = nil, -- optional function to override default behavior
   },
   toggle = true, -- toggle group when at least one window is already open
 }
@@ -217,6 +233,38 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
       },
     },
   },
+}
+```
+
+### Custom Picker Behavior
+
+Optionally create a custom picker function to define
+your own behavior when selecting a group by key.
+
+- Default behavior call `open_group_index` for each group with the same key
+
+```lua
+opts = {
+  pick_function = function(key)
+    local edgy_group = require('edgy-group')
+    for _, group in ipairs(edgy_group.get_groups_by_key(key)) do
+      pcall(edgy_group.open_group_index, group.position, group.index)
+    end
+  end,
+}
+```
+
+- Use upper case key to focus all element instead of toggling
+
+```lua
+opts = {
+  pick_function = function(key)
+    local toggle = not key:match('%u')
+    local edgy_group = require('edgy-group')
+    for _, group in ipairs(edgy_group.get_groups_by_key(key:lower())) do
+      pcall(edgy_group.open_group_index, group.position, group.index, toggle)
+    end
+  end,
 }
 ```
 

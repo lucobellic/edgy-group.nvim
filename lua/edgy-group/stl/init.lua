@@ -124,7 +124,9 @@ function M.pick(callback)
 
   -- Wait for key and open the corresponding group
   local key = vim.fn.getcharstr()
-  if key then
+  if type(Group.pick_function) == 'function' then
+    Group.pick_function(key)
+  elseif key then
     for _, group_index in ipairs(M.find_pos_index(key) or {}) do
       pcall(Group.open_group_index, group_index.position, group_index.index)
     end
