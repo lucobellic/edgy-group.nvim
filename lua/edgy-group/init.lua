@@ -99,12 +99,14 @@ end
 -- Open group at index at given position
 ---@param pos Edgy.Pos
 ---@param index number Index relative to the group at given position
-function M.open_group_index(pos, index)
+---@param toggle? boolean either to toggle already selected group or not
+function M.open_group_index(pos, index, toggle)
   local g = M.groups_by_pos[pos]
   local indexed_group = g and g.groups[index]
   if indexed_group then
     -- Close all windows if at least one window of the currently selection group is open
-    if M.toggle and index == g.selected_index and M.is_one_window_open(pos, indexed_group.titles) then
+    local toggle_edgebar = toggle == nil and M.toggle or toggle
+    if toggle_edgebar and index == g.selected_index and M.is_one_window_open(pos, indexed_group.titles) then
       M.close_edgebar_views_by_titles(pos, indexed_group.titles)
     else
       local other_groups = vim.tbl_filter(function(group)
