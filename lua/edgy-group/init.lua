@@ -18,6 +18,24 @@ function M.setup(opts)
   require('edgy-group.commands').setup()
 end
 
+---@class EdgyGroup.Indexed
+---@field position Edgy.Pos position of the group
+---@field index number index of the group at position
+---@field group EdgyGroup
+
+-- Get list of EdgyGroup with position by key
+---@param key string key to pick a group
+---@return EdgyGroup.Indexed[]
+function M.get_groups_by_key(key)
+  local groups_with_pos = {}
+  for pos, indexed_groups in pairs(M.groups_by_pos) do
+    for i, group in ipairs(indexed_groups.groups) do
+      if group.pick_key == key then table.insert(groups_with_pos, { position = pos, group = group, index = i }) end
+    end
+  end
+  return groups_with_pos
+end
+
 -- Filter views by title
 ---@param views Edgy.View[]
 ---@param titles string[]
