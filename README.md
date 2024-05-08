@@ -3,11 +3,6 @@
   🖇️ edgy-group.nvim
 </h1>
 
-> [!IMPORTANT]
-> This plugin is mainly for personal and demonstration purposes and have a lot of limitations.  
-> Limited support will be provided for issues and pull requests.  
-> I would prefer to have this plugin integrated directly into edgy.  
-
 https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-a93c-25688ff37766
 
 <p align="center">
