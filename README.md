@@ -28,6 +28,7 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/00feeae1-6d6c-486c-
     - [Groups](#groups)
   - [🔌 API](#🔌-api)
 - [Example Setup](#example-setup)
+  - [Custom Picker Behavior](#custom-picker-behavior)
   - [Statusline](#statusline)
     - [Bufferline](#bufferline)
     - [Lualine](#lualine)
@@ -117,6 +118,7 @@ local default_options = {
     -- right: after right separator
     -- left_separator, right_separator and icon: replace the corresponding element
     pick_key_pose = 'left',
+    pick_function = nil, -- optional function to override default behavior
   },
   toggle = true, -- toggle group when at least one window is already open
 }
@@ -236,6 +238,38 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
       },
     },
   },
+}
+```
+
+### Custom Picker Behavior
+
+Optionally create a custom picker function to define
+your own behavior when selecting a group by key.
+
+- Default behavior call `open_group_index` for each group with the same key
+
+```lua
+opts = {
+  pick_function = function(key)
+    local edgy_group = require('edgy-group')
+    for _, group in ipairs(edgy_group.get_groups_by_key(key)) do
+      pcall(edgy_group.open_group_index, group.position, group.index)
+    end
+  end,
+}
+```
+
+- Use upper case key to focus all element instead of toggling
+
+```lua
+opts = {
+  pick_function = function(key)
+    local toggle = not key:match('%u')
+    local edgy_group = require('edgy-group')
+    for _, group in ipairs(edgy_group.get_groups_by_key(key:lower())) do
+      pcall(edgy_group.open_group_index, group.position, group.index, toggle)
+    end
+  end,
 }
 ```
 
