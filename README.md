@@ -3,7 +3,7 @@
   🖇️ edgy-group.nvim
 </h1>
 
-https://github.com/lucobellic/edgy-group.nvim/assets/6067072/d85322de-3bad-4fa4-858d-6e729b02da0e
+https://github.com/lucobellic/edgy-group.nvim/assets/6067072/6bee2762-9cc7-46d8-82a7-17b4e0f64cf7
 
 <p align="center">
   <img src="https://img.shields.io/github/v/tag/lucobellic/edgy-group.nvim?label=version&style=for-the-badge" alt="Version">
