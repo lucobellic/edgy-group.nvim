@@ -15,7 +15,6 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/6bee2762-9cc7-46d8-
 <!--toc:start-->
 - [✨ Features](#features)
 - [⚠️ Limitations](#️-limitations)
-  - [Advice](#advice)
 - [⚡️ Requirements](#️-requirements)
 - [📦️ Installation](#📦️-installation)
 - [🚀️ Usage](#🚀️-usage)
