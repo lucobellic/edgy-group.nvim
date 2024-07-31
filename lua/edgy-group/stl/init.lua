@@ -26,6 +26,14 @@ end
 
 ---@package
 ---@param is_visible boolean
+---@return string
+function M.get_separator_highlight(is_visible)
+  local highlight = is_visible and M.cache.opts.colors.separator_active or M.cache.opts.colors.separator_inactive
+  return M.cache.opts.colored and '%#' .. highlight .. '#' or ''
+end
+
+---@package
+---@param is_visible boolean
 ---@param position Edgy.Pos
 ---@param index number
 function M.get_pick_text(is_visible, position, index)
@@ -39,43 +47,57 @@ function M.get_pick_text(is_visible, position, index)
   return pick
 end
 
----@alias EdgyGroup.PickStatusLine function(pick: string, highlight: string, line: EdgyGroup.Statusline.Cache.Elements): string
+---@alias EdgyGroup.PickStatusLine function(pick: string, separator_highlight: string, highlight: string, line: EdgyGroup.Statusline.Cache.Line): string
 
 -- Table of statusline with pick key at different position
 ---@private
 ---@type table<EdgyGroup.PickKeyPose, EdgyGroup.PickStatusLine>
 local line_with_pick = {
-  left = function(pick, highlight, line)
-    return pick .. highlight .. line.left_sep .. line.icon .. line.right_sep
+  left = function(pick, separator_highlight, highlight, line)
+    return pick .. separator_highlight .. line.left_sep .. highlight .. line.icon .. line.right_sep
   end,
-  left_separator = function(pick, highlight, line)
-    return pick .. highlight .. line.icon .. line.right_sep
+  left_separator = function(pick, separator_highlight, highlight, line)
+    return pick .. highlight .. line.icon .. separator_highlight .. line.right_sep
   end,
-  icon = function(pick, highlight, line)
-    return highlight .. line.left_sep .. pick .. highlight .. line.right_sep
+  icon = function(pick, separator_highlight, highlight, line)
+    return highlight .. line.left_sep .. pick .. highlight .. separator_highlight .. line.right_sep
   end,
-  right_separator = function(pick, highlight, line)
-    return highlight .. line.left_sep .. line.icon .. pick
+  right_separator = function(pick, separator_highlight, highlight, line)
+    return separator_highlight .. line.left_sep .. highlight .. line.icon .. pick
   end,
-  right = function(pick, highlight, line)
-    return highlight .. line.left_sep .. line.icon .. line.right_sep .. pick
+  right = function(pick, separator_highlight, highlight, line)
+    return separator_highlight
+      .. line.left_sep
+      .. highlight
+      .. line.icon
+      .. separator_highlight
+      .. line.right_sep
+      .. pick
   end,
 }
 
 -- Get the statusline icon with optional pick key at different position
 ---@private
 ---@param pick string
+---@param separator_highlight string
 ---@param highlight string
----@param line EdgyGroup.Statusline.Cache.Elements
+---@param line EdgyGroup.Statusline.Cache.Line
 ---@return string statusline_icon
-function M.get_statusline_icon(pick, highlight, line)
+function M.get_statusline_icon(pick, separator_highlight, highlight, line)
   -- PERF: build in cache for all possible pick modes
   if not M.pick_mode then
-    return highlight .. line.callback .. line.left_sep .. line.icon .. line.right_sep .. line.end_callback
+    return line.callback
+      .. separator_highlight
+      .. line.left_sep
+      .. highlight
+      .. line.icon
+      .. separator_highlight
+      .. line.right_sep
+      .. line.end_callback
   end
   -- Get the statusline for the pick key position, default to left
   local get_line_with_pick = line_with_pick[M.pick_key_pose] or line_with_pick['left']
-  return get_line_with_pick(pick, highlight, line)
+  return get_line_with_pick(pick, separator_highlight, highlight, line)
 end
 
 -- Get a list of statusline at the given position for each group icons
@@ -91,9 +113,9 @@ function M.get_statusline(position)
     for index, line in ipairs(M.cache.statuslines[position]) do
       local is_visible = edgebar.visible ~= 0 and index == indexed_groups.selected_index
       local highlight = M.get_highlight(is_visible)
+      local separator_highlight = M.get_separator_highlight(is_visible)
       local pick = M.get_pick_text(is_visible, position, index)
-      -- if pick is enabled, replace the left separator by the pick key
-      table.insert(statusline, M.get_statusline_icon(pick, highlight, line))
+      table.insert(statusline, M.get_statusline_icon(pick, separator_highlight, highlight, line))
     end
   end
   return statusline
