@@ -51,8 +51,6 @@ to open and close windows within the same **edgebar**.
 - All **edgy** windows require a unique **title** in order to create groups.
 - Opening a window with a function or command call will not automatically
   switch to the corresponding group.
-- Switching between groups always sets the cursor to one of the **edgebar**
-  windows and does not restore the previous cursor position.
 
 ## ⚡️ Requirements
 
