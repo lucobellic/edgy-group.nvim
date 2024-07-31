@@ -27,6 +27,8 @@ local Groups = require('edgy-group.groups')
 ---@field inactive string highlight color for closed group
 ---@field pick_active string highlight color for pick key for open group
 ---@field pick_inactive string highlight color for pick key for closed group
+---@field separator_active string highlight color for separator for open group
+---@field separator_inactive string highlight color for separator for closed group
 
 ---@class EdgyGroup.Opts
 ---@field groups table<Edgy.Pos, EdgyGroup[]> list of groups for each position
@@ -50,6 +52,8 @@ local default_options = {
       inactive = 'Normal',
       pick_active = 'PmenuSel',
       pick_inactive = 'PmenuSel',
+      separator_active = 'Normal',
+      separator_inactive = 'Normal',
     },
     pick_key_pose = 'left',
     pick_function = nil,

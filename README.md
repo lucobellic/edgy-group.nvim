@@ -95,6 +95,8 @@ local default_options = {
       inactive = 'Normal', -- highlight color for closed group
       pick_active = 'PmenuSel', -- highlight color for pick key for open group
       pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
+      separator_active = 'Normal', -- highlight color for separator for open group
+      separator_inactive = 'Normal', -- highlight color for separator for closed group
     },
     -- pick key position: left, right, left_separator, right_separator, icon
     -- left: before left separator
