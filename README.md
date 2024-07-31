@@ -49,7 +49,6 @@ It is a simple wrapper around **edgy.nvim** that is used
 to open and close windows within the same **edgebar**.
 
 - All **edgy** windows require a unique **title** in order to create groups.
-- All **edgy** windows require an **open** command to open each window.
 - Opening a window with a function or command call will not automatically
   switch to the corresponding group.
 - Switching between groups always sets the cursor to one of the **edgebar**

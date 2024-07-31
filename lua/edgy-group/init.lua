@@ -55,8 +55,6 @@ local function open(view)
     Util.try(function()
       vim.cmd(view.open)
     end)
-  else
-    Util.error('View is pinned and has no open function')
   end
 end
 
