@@ -54,14 +54,6 @@ to open and close windows within the same **edgebar**.
 - Switching between groups always sets the cursor to one of the **edgebar**
   windows and does not restore the previous cursor position.
 
-### Advice
-
-- It is preferable to use at least one **pinned** window with **close_when_all_hidden**
-  option set to **false** in order to prevent **edgebar** from "blinking" when switching
-  between groups.  
-  A workaround would be to wait until at least one window is opened before closing
-  any existing ones.
-
 ## ⚡️ Requirements
 
 [edgy.nvim](https://github.com/folke/edgy.nvim)
