@@ -51,6 +51,7 @@ function Cache:get_available_keys(groups)
 end
 
 -- Build picking keys for each positions and group and associate them to the group
+-- Assign a pick key to group without one
 ---@private
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 function Cache:build_keys(groups)
@@ -62,15 +63,15 @@ function Cache:build_keys(groups)
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
     self.pick_keys[pos] = {}
     for i, group in ipairs(groups[pos] and groups[pos].groups or {}) do
-      -- Get the next available key or use the user defined one
-      local key = group.pick_key or table.remove(available_keys, 1)
+      -- Assign a pick key if not already set
+      if not group.pick_key then group.pick_key = table.remove(available_keys, 1) end
 
       -- Save the key for the group position and index
-      self.pick_keys[pos][i] = key
+      self.pick_keys[pos][i] = group.pick_key
 
       -- Associate the key to one or multiple group
-      if not self.key_to_group[key] then self.key_to_group[key] = {} end
-      table.insert(self.key_to_group[key], { position = pos, index = i })
+      if not self.key_to_group[group.pick_key] then self.key_to_group[group.pick_key] = {} end
+      table.insert(self.key_to_group[group.pick_key], { position = pos, index = i })
     end
   end
 end
