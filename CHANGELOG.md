@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.2](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.1...v0.4.2) (2024-09-01)
+
+
+### Features
+
+* add highlight for separators ([bd2f077](https://github.com/lucobellic/edgy-group.nvim/commit/bd2f0774a93c34c6a40bc6b1d68547506ec01cfb)), closes [#23](https://github.com/lucobellic/edgy-group.nvim/issues/23)
+* remove error for view without open command ([2a3d819](https://github.com/lucobellic/edgy-group.nvim/commit/2a3d819083e3db6080963d54ff34df9fd334dd2d))
+
+
+### Bug Fixes
+
+* assign key to group without one ([d935115](https://github.com/lucobellic/edgy-group.nvim/commit/d93511595e4ca7110544f7d281e654aca37457c7))
+
 ## [0.4.1](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.0...v0.4.1) (2024-05-08)
 
 
