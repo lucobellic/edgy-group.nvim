@@ -147,6 +147,16 @@ function M.open_group_offset(pos, offset)
   if g then M.open_group_index(pos, g:get_offset_index(offset)) end
 end
 
+-- Open groups by key, this might open on or multiple groups sharing the same key
+---@param key string
+---@param toggle? boolean whether to toggle an already opened group or not
+function M.open_groups_by_key(key, toggle)
+  local toggle_group = toggle == nil and M.toggle or toggle
+  vim.iter(M.get_groups_by_key(key)):each(function(group)
+    pcall(M.open_group_index, group.position, group.index, toggle_group)
+  end)
+end
+
 -- Get the currently selected group for the given position
 ---@param pos Edgy.Pos
 ---@return EdgyGroup?

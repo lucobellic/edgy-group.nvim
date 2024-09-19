@@ -27,6 +27,7 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/6bee2762-9cc7-46d8-
     - [Bufferline](#bufferline)
     - [Lualine](#lualine)
     - [Heirline](#heirline)
+    - [Tabby](#tabby)
     - [Picking](#picking)
 <!--toc:end-->
 
@@ -130,12 +131,15 @@ Groups without pick_key will be assigned to the first available key in alphabeti
 - **EdgyGroupSelect** select group to open with **vim.ui.select**.
 - **EdgyGroupNext position** open next group at given position.
 - **EdgyGroupPrev position** open previous group at given position.
-- **require('edgy-group').open_group_offset(position, offset)**
+- **require('edgy-group').open_group_offset(position, offset)**  
   open group with offset relative to the current group.
-- **require('edgy-group').open_group_index(position, index)**
+- **require('edgy-group').open_group_index(position, index)**  
   open group with index relative to the current position.
-- **require('edgy-group.stl').get_statusline(position)** get a list of string
-  in statusline format for each group icons with optional highlight and click support.
+- **require('edgy-group').open_groups_by_key(key, toggle?)**  
+  open one or multiple groups with this key, with an optional toggle option.
+- **require('edgy-group.stl').get_statusline(position)**  
+  get a list of string in statusline format for each group icons with optional  
+  highlight and click support.
 - **require('edgy-group.stl').pick(callback)**
   enable picking mode to select group from statusline.
 
