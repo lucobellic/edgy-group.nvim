@@ -263,7 +263,8 @@ opts = {
 Examples of how to use **edgy-group.nvim** with
 [bufferline.nvim](https://github.com/akinsho/bufferline.nvim),
 [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim),
-[heirline.nvim](https://github.com/rebelot/heirline.nvim)
+[heirline.nvim](https://github.com/rebelot/heirline.nvim),
+[tabby.nvim](https://github.com/nanozuki/tabby.nvim)
 to add group icons with highlight and click support.
 
 #### Bufferline
@@ -319,6 +320,26 @@ local EdgyGroup = {
     local bottom_line = stl.get_statusline('bottom')
     return table.concat(bottom_line)
   end
+}
+```
+
+#### Tabby
+
+```lua
+return {
+  'nanozuki/tabby.nvim',
+  --- ...
+  opts = {
+    line = function(line)
+      return {
+        require('edgy-group.stl').get_statusline('left'),
+        -- ...
+        line.spacer(),
+        -- ...
+        require('edgy-group.stl').get_statusline('right'),
+      }
+    end,
+  },
 }
 ```
 
