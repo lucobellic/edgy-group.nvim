@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.2...v0.4.3) (2024-09-19)
+
+
+### Features
+
+* add `open_groups_by_key` api function ([9bdecf7](https://github.com/lucobellic/edgy-group.nvim/commit/9bdecf77df28800d6999e6a76a98ea635ff28629))
+
 ## [0.4.2](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.1...v0.4.2) (2024-09-01)
 
 
