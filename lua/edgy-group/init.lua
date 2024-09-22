@@ -25,12 +25,15 @@ end
 
 -- Get list of EdgyGroup with position by key
 ---@param key string key to pick a group
+---@param position? Edgy.Pos position of the group
 ---@return EdgyGroup.Indexed[]
-function M.get_groups_by_key(key)
+function M.get_groups_by_key(key, position)
   local groups_with_pos = {}
   for pos, indexed_groups in pairs(M.groups_by_pos) do
-    for i, group in ipairs(indexed_groups.groups) do
-      if group.pick_key == key then table.insert(groups_with_pos, { position = pos, group = group, index = i }) end
+    if position == nil or pos == position then
+      for i, group in ipairs(indexed_groups.groups) do
+        if group.pick_key == key then table.insert(groups_with_pos, { position = pos, group = group, index = i }) end
+      end
     end
   end
   return groups_with_pos
@@ -133,7 +136,7 @@ function M.open_group_index(pos, index, toggle)
       end, other_groups)
 
       M.open_edgebar_views_by_titles(pos, indexed_group.titles)
-      M.close_edgebar_views_by_titles(pos, vim.tbl_flatten(other_groups_titles))
+      M.close_edgebar_views_by_titles(pos, vim.iter(other_groups_titles):flatten():totable())
       g.selected_index = index
     end
   end
@@ -147,12 +150,17 @@ function M.open_group_offset(pos, offset)
   if g then M.open_group_index(pos, g:get_offset_index(offset)) end
 end
 
+---@class EdgyGroup.OpenOpts
+---@field position? Edgy.Pos position of the group
+---@field toggle? boolean toggle a group if at least one window in the group is open
+
 -- Open groups by key, this might open on or multiple groups sharing the same key
 ---@param key string
----@param toggle? boolean whether to toggle an already opened group or not
-function M.open_groups_by_key(key, toggle)
-  local toggle_group = toggle == nil and M.toggle or toggle
-  vim.iter(M.get_groups_by_key(key)):each(function(group)
+---@param opts? EdgyGroup.OpenOpts option to open a group
+function M.open_groups_by_key(key, opts)
+  local opts = opts or {}
+  local toggle_group = opts.toggle == nil and M.toggle or opts.toggle
+  vim.iter(M.get_groups_by_key(key, opts.position)):each(function(group)
     pcall(M.open_group_index, group.position, group.index, toggle_group)
   end)
 end
