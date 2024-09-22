@@ -135,8 +135,8 @@ Groups without pick_key will be assigned to the first available key in alphabeti
   open group with offset relative to the current group.
 - **require('edgy-group').open_group_index(position, index)**  
   open group with index relative to the current position.
-- **require('edgy-group').open_groups_by_key(key, toggle?)**  
-  open one or multiple groups with this key, with an optional toggle option.
+- **require('edgy-group').open_groups_by_key(key, opts?)**  
+  open one or multiple groups with this key, with optional table {position, toggle}.
 - **require('edgy-group.stl').get_statusline(position)**  
   get a list of string in statusline format for each group icons with optional  
   highlight and click support.
