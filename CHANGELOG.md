@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.3...v0.5.0) (2024-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* add optional table with position to `open_groups_by_key`
+
+### Features
+
+* add optional table with position to `open_groups_by_key` ([b798fc4](https://github.com/lucobellic/edgy-group.nvim/commit/b798fc45643c95e9b80caa5be57a4ed69d4deffe))
+
 ## [0.4.3](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.2...v0.4.3) (2024-09-19)
 
 
