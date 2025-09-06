@@ -23,12 +23,12 @@ local Groups = require('edgy-group.groups')
 ---@field pick_function? fun(key: string) override the behavior of the pick function when a key is pressed.
 
 ---@class EdgyGroup.Statusline.Colors
----@field active string highlight color for open group
----@field inactive string highlight color for closed group
----@field pick_active string highlight color for pick key for open group
----@field pick_inactive string highlight color for pick key for closed group
----@field separator_active string highlight color for separator for open group
----@field separator_inactive string highlight color for separator for closed group
+---@field active string set EdgyGroupActive highlight
+---@field inactive string set EdgyGroupInactive highlight
+---@field pick_active string set EdgyGroupPickActive highlight
+---@field pick_inactive string set EdgyGroupPickInactive highlight
+---@field separator_active string set EdgyGroupSeparatorActive highlight
+---@field separator_inactive string set EdgyGroupSeparatorInactive highlight
 
 ---@class EdgyGroup.Opts
 ---@field groups table<Edgy.Pos, EdgyGroup[]> list of groups for each position

@@ -21,6 +21,7 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/6bee2762-9cc7-46d8-
   - [🎛️ Options](#🎛️-options)
     - [Groups](#groups)
   - [🔌 API](#🔌-api)
+- [🌈 Highlights](#🌈-highlights)
 - [Example Setup](#example-setup)
   - [Custom Picker Behavior](#custom-picker-behavior)
   - [Statusline](#statusline)
@@ -91,13 +92,13 @@ local default_options = {
     separators = { ' ', ' ' },
     clickable = false, -- open group on click
     colored = false, -- enable highlight support
-    colors = { -- highlight colors
-      active = 'Normal', -- highlight color for open group
-      inactive = 'Normal', -- highlight color for closed group
-      pick_active = 'PmenuSel', -- highlight color for pick key for open group
-      pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
-      separator_active = 'Normal', -- highlight color for separator for open group
-      separator_inactive = 'Normal', -- highlight color for separator for closed group
+    colors = { -- highlight group links (see Highlight Groups section)
+      active = 'Normal', -- set EdgyGroupActive highlight
+      inactive = 'Normal', -- set EdgyGroupInactive highlight
+      pick_active = 'PmenuSel', -- set EdgyGroupPickActive highlight
+      pick_inactive = 'PmenuSel', -- set EdgyGroupPickInactive highlight
+      separator_active = 'Normal', -- set EdgyGroupSeparatorActive highlight
+      separator_inactive = 'Normal', -- set EdgyGroupSeparatorInactive highlight
     },
     -- pick key position: left, right, left_separator, right_separator, icon
     -- left: before left separator
@@ -142,6 +143,30 @@ Groups without pick_key will be assigned to the first available key in alphabeti
   highlight and click support.
 - **require('edgy-group.stl').pick(callback)**
   enable picking mode to select group from statusline.
+
+## 🌈 Highlights
+
+**edgy-group.nvim** offers a flexible highlighting system that allows you to
+customize the appearance of group icons, separators, and pick icons.
+
+The following highlights are created and set based on the configuration:
+
+- `EdgyGroupActive` / `EdgyGroupInactive`
+- `EdgyGroupPickActive` / `EdgyGroupPickInactive`
+- `EdgyGroupSeparatorActive` / `EdgyGroupSeparatorInactive`
+
+For more granular control, groups specific to both position and index are also
+created, following the format `EdgyGroup<Category><Status><Position><Index>`:
+
+- `EdgyGroupActiveLeft1`, `EdgyGroupSeparatorInactiveRight2`, etc.
+
+By default, highlight groups are linked hierarchically by their level of specificity:
+
+- `EdgyGroupActiveLeft1` → `EdgyGroupActiveLeft` → `EdgyGroupActive` → (configuration)
+
+This allows you to style individual group based on their position and order in
+the statusline, enabling dynamic rainbow sliding effects or other
+customizations.
 
 ## Example Setup
 
