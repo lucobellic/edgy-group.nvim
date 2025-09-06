@@ -8,6 +8,17 @@ local Group = require('edgy-group')
 ---@diagnostic disable-next-line: missing-fields
 local M = {}
 
+local function capitalize(str)
+  return str:sub(1, 1):upper() .. str:sub(2)
+end
+
+---@param highlight string
+---@param position Edgy.Pos
+---@param index number
+local function get_statusline_highlight(highlight, position, index)
+  return '%#EdgyGroup' .. highlight .. capitalize(position) .. index .. '#'
+end
+
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 ---@param opts EdgyGroup.Statusline.Opts
 function M.setup(groups, opts)
@@ -18,18 +29,20 @@ end
 
 ---@package
 ---@param is_visible boolean
+---@param position Edgy.Pos
+---@param index number
 ---@return string
-function M.get_highlight(is_visible)
-  local highlight = is_visible and M.cache.opts.colors.active or M.cache.opts.colors.inactive
-  return M.cache.opts.colored and '%#' .. highlight .. '#' or ''
+function M.get_highlight(is_visible, position, index)
+  local highlight = is_visible and 'Active' or 'Inactive'
+  return M.cache.opts.colored and get_statusline_highlight(highlight, position, index) or ''
 end
 
 ---@package
 ---@param is_visible boolean
 ---@return string
-function M.get_separator_highlight(is_visible)
-  local highlight = is_visible and M.cache.opts.colors.separator_active or M.cache.opts.colors.separator_inactive
-  return M.cache.opts.colored and '%#' .. highlight .. '#' or ''
+function M.get_separator_highlight(is_visible, position, index)
+  local highlight = is_visible and 'SeparatorActive' or 'SeparatorInactive'
+  return M.cache.opts.colored and get_statusline_highlight(highlight, position, index) or ''
 end
 
 ---@package
@@ -40,8 +53,8 @@ function M.get_pick_text(is_visible, position, index)
   local pick = ''
   if M.pick_mode then
     local character = M.cache.pick_keys[position] and M.cache.pick_keys[position][index] or ''
-    local highlight = is_visible and M.cache.opts.colors.pick_active or M.cache.opts.colors.pick_inactive
-    local pick_highlight = M.cache.opts.colored and '%#' .. highlight .. '#' or ''
+    local highlight = is_visible and 'PickActive' or 'PickInactive'
+    local pick_highlight = M.cache.opts.colored and get_statusline_highlight(highlight, position, index) or ''
     pick = pick_highlight .. character
   end
   return pick
@@ -49,7 +62,7 @@ end
 
 ---@alias EdgyGroup.PickStatusLine function(pick: string, separator_highlight: string, highlight: string, line: EdgyGroup.Statusline.Cache.Line): string
 
--- Table of statusline with pick key at different position
+--- Table of statusline with pick key at different position
 ---@private
 ---@type table<EdgyGroup.PickKeyPose, EdgyGroup.PickStatusLine>
 local line_with_pick = {
@@ -76,7 +89,7 @@ local line_with_pick = {
   end,
 }
 
--- Get the statusline icon with optional pick key at different position
+--- Get the statusline icon with optional pick key at different position
 ---@private
 ---@param pick string
 ---@param separator_highlight string
@@ -100,8 +113,8 @@ function M.get_statusline_icon(pick, separator_highlight, highlight, line)
   return get_line_with_pick(pick, separator_highlight, highlight, line)
 end
 
--- Get a list of statusline at the given position for each group icons
--- Also provide optional highlight and click support
+--- Get a list of statusline at the given position for each group icons
+--- Also provide optional highlight and click support
 ---@public
 ---@param position Edgy.Pos The position to get the statusline for
 ---@return table<string>
@@ -112,8 +125,8 @@ function M.get_statusline(position)
   if edgebar and indexed_groups then
     for index, line in ipairs(M.cache.statuslines[position]) do
       local is_visible = edgebar.visible ~= 0 and index == indexed_groups.selected_index
-      local highlight = M.get_highlight(is_visible)
-      local separator_highlight = M.get_separator_highlight(is_visible)
+      local highlight = M.get_highlight(is_visible, position, index)
+      local separator_highlight = M.get_separator_highlight(is_visible, position, index)
       local pick = M.get_pick_text(is_visible, position, index)
       table.insert(statusline, M.get_statusline_icon(pick, separator_highlight, highlight, line))
     end
@@ -121,7 +134,7 @@ function M.get_statusline(position)
   return statusline
 end
 
--- Find one or multiple group positions and indices for the given key.
+--- Find one or multiple group positions and indices for the given key.
 ---@private
 ---@param key string
 ---@return EdgyGroup.Statusline.Cache.GroupIndex[]?
@@ -129,9 +142,9 @@ function M.find_pos_index(key)
   return M.cache.key_to_group[key] or {}
 end
 
--- Enable pick mode and wait for a key to be pressed
--- Redraw statusline and tabline before and after pick
--- Optional callback could be used to trigger external plugin refresh/update
+--- Enable pick mode and wait for a key to be pressed
+--- Redraw statusline and tabline before and after pick
+--- Optional callback could be used to trigger external plugin refresh/update
 ---@public
 ---@param callback? function Callback function to call after pick mode have been enabled
 function M.pick(callback)

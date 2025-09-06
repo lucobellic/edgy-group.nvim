@@ -15,6 +15,7 @@ function M.setup(opts)
   M.toggle = parsed_opts.toggle
   M.pick_function = parsed_opts.statusline.pick_function
   require('edgy-group.stl').setup(parsed_opts.groups, parsed_opts.statusline)
+  require('edgy-group.highlights').setup(parsed_opts.groups, parsed_opts.statusline.colors)
   require('edgy-group.commands').setup()
 end
 
