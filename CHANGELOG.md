@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/lucobellic/edgy-group.nvim/compare/v0.5.0...v0.5.1) (2025-09-07)
+
+
+### Features
+
+* add plugin highlights ([b92cb1d](https://github.com/lucobellic/edgy-group.nvim/commit/b92cb1dba64bc295a756fd4f3f861d24f7d46dc7))
+
 ## [0.5.0](https://github.com/lucobellic/edgy-group.nvim/compare/v0.4.3...v0.5.0) (2024-09-22)
 
 
