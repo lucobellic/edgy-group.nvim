@@ -1,4 +1,4 @@
-*edgy-group.nvim.txt*           For Neovim >= 0.9.0          Last change: 2024
+*edgy-group.nvim.txt*           For Neovim >= 0.9.0          Last change: 2025
 
 ==============================================================================
 Table of Contents                          *edgy-group.nvim-table-of-contents*
@@ -10,7 +10,8 @@ Table of Contents                          *edgy-group.nvim-table-of-contents*
 5. Usage                                               |edgy-group.nvim-usage|
   - Options                                    |edgy-group.nvim-usage-options|
   - API                                            |edgy-group.nvim-usage-api|
-6. Example Setup                               |edgy-group.nvim-example-setup|
+6. Highlights                                     |edgy-group.nvim-highlights|
+7. Example Setup                               |edgy-group.nvim-example-setup|
   - CustomPicker Behavior|edgy-group.nvim-example-setup-custompicker-behavior|
   - Statusline                      |edgy-group.nvim-example-setup-statusline|
 edgy-group.nvim <https://github.com/lucobellic/edgy-group.nvim> extends
@@ -84,13 +85,13 @@ OPTIONS                                        *edgy-group.nvim-usage-options*
         separators = { ' ', ' ' },
         clickable = false, -- open group on click
         colored = false, -- enable highlight support
-        colors = { -- highlight colors
-          active = 'Normal', -- highlight color for open group
-          inactive = 'Normal', -- highlight color for closed group
-          pick_active = 'PmenuSel', -- highlight color for pick key for open group
-          pick_inactive = 'PmenuSel', -- highlight color for pick key for closed group
-          separator_active = 'Normal', -- highlight color for separator for open group
-          separator_inactive = 'Normal', -- highlight color for separator for closed group
+        colors = { -- highlight group links (see Highlight Groups section)
+          active = 'Normal', -- set EdgyGroupActive highlight
+          inactive = 'Normal', -- set EdgyGroupInactive highlight
+          pick_active = 'PmenuSel', -- set EdgyGroupPickActive highlight
+          pick_inactive = 'PmenuSel', -- set EdgyGroupPickInactive highlight
+          separator_active = 'Normal', -- set EdgyGroupSeparatorActive highlight
+          separator_inactive = 'Normal', -- set EdgyGroupSeparatorInactive highlight
         },
         -- pick key position: left, right, left_separator, right_separator, icon
         -- left: before left separator
@@ -141,7 +142,34 @@ API                                                *edgy-group.nvim-usage-api*
 
 
 ==============================================================================
-6. Example Setup                               *edgy-group.nvim-example-setup*
+6. Highlights                                     *edgy-group.nvim-highlights*
+
+**edgy-group.nvim** offers a flexible highlighting system that allows you to
+customize the appearance of group icons, separators, and pick icons.
+
+The following highlights are created and set based on the configuration:
+
+- `EdgyGroupActive` / `EdgyGroupInactive`
+- `EdgyGroupPickActive` / `EdgyGroupPickInactive`
+- `EdgyGroupSeparatorActive` / `EdgyGroupSeparatorInactive`
+
+For more granular control, groups specific to both position and index are also
+created, following the format `EdgyGroup<Category><Status><Position><Index>`
+
+- `EdgyGroupActiveLeft1`,`EdgyGroupSeparatorInactiveRight2`, etc.
+
+By default, highlight groups are linked hierarchically by their level of
+specificity:
+
+- `EdgyGroupActiveLeft1` → `EdgyGroupActiveLeft` → `EdgyGroupActive` → (configuration)
+
+This allows you to style individual group based on their position and order in
+the statusline, enabling dynamic rainbow sliding effects or other
+customizations.
+
+
+==============================================================================
+7. Example Setup                               *edgy-group.nvim-example-setup*
 
 
   [!WARNING] Only groups with a provided title will be displayed. A default group
