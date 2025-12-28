@@ -1,8 +1,7 @@
 local Config = require('edgy.config')
 local Util = require('edgy.util')
 
--- Define groups of edgebar views by title
----@class EdgyGroups
+---@class EdgyGroups Define groups of edgebar views by title
 ---@field groups_by_pos table<Edgy.Pos, EdgyGroup.IndexedGroups> list of groups for each position
 ---@field toggle boolean close group if at least one window in the group is open
 ---@field pick_function? fun(key: string) override the behavior of the pick function when a key is pressed.
@@ -24,7 +23,7 @@ end
 ---@field index number index of the group at position
 ---@field group EdgyGroup
 
--- Get list of EdgyGroup with position by key
+--- Get list of EdgyGroup with position by key
 ---@param key string key to pick a group
 ---@param position? Edgy.Pos position of the group
 ---@return EdgyGroup.Indexed[]
@@ -40,7 +39,7 @@ function M.get_groups_by_key(key, position)
   return groups_with_pos
 end
 
--- Filter views by title
+--- Filter views by title
 ---@param views Edgy.View[]
 ---@param titles string[]
 ---@return Edgy.View[]
@@ -50,7 +49,7 @@ local function filter_by_titles(views, titles)
   end, views)
 end
 
--- Open window from open function
+--- Open window from open function
 ---@param view Edgy.View
 local function open(view)
   if type(view.open) == 'function' then
@@ -62,7 +61,7 @@ local function open(view)
   end
 end
 
--- Close edgebar views for the given position and title
+--- Close edgebar views for the given position and title
 ---@param pos Edgy.Pos
 ---@param titles string[]
 function M.close_edgebar_views_by_titles(pos, titles)
@@ -84,8 +83,8 @@ function M.close_edgebar_views_by_titles(pos, titles)
   end
 end
 
--- Open edgebar views for the given position and title
--- Do not open a view if at least one window is already open
+--- Open edgebar views for the given position and title
+--- Do not open a view if at least one window is already open
 ---@param pos Edgy.Pos
 ---@param titles string[]
 function M.open_edgebar_views_by_titles(pos, titles)
@@ -102,7 +101,7 @@ function M.open_edgebar_views_by_titles(pos, titles)
   end
 end
 
--- Check if at least one window is open for the given position and titles
+--- Check if at least one window is open for the given position and titles
 ---@param pos Edgy.Pos
 ---@param titles string[]
 ---@return boolean is_open true if at least one window is open
@@ -116,7 +115,7 @@ function M.is_one_window_open(pos, titles)
   end, { predicate = true })
 end
 
--- Open group at index at given position
+--- Open group at index at given position
 ---@param pos Edgy.Pos
 ---@param index number Index relative to the group at given position
 ---@param toggle? boolean either to toggle already selected group or not
@@ -143,7 +142,7 @@ function M.open_group_index(pos, index, toggle)
   end
 end
 
--- Open group relative to the currently selected group for the given position
+--- Open group relative to the currently selected group for the given position
 ---@param pos Edgy.Pos
 ---@param offset number
 function M.open_group_offset(pos, offset)
@@ -155,7 +154,7 @@ end
 ---@field position? Edgy.Pos position of the group
 ---@field toggle? boolean toggle a group if at least one window in the group is open
 
--- Open groups by key, this might open on or multiple groups sharing the same key
+--- Open groups by key, this might open on or multiple groups sharing the same key
 ---@param key string
 ---@param opts? EdgyGroup.OpenOpts option to open a group
 function M.open_groups_by_key(key, opts)
@@ -166,7 +165,7 @@ function M.open_groups_by_key(key, opts)
   end)
 end
 
--- Get the currently selected group for the given position
+--- Get the currently selected group for the given position
 ---@param pos Edgy.Pos
 ---@return EdgyGroup?
 function M.selected(pos)
