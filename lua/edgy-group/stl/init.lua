@@ -123,13 +123,15 @@ function M.get_statusline(position)
   local edgebar = Config and Config.layout and Config.layout[position]
   local indexed_groups = Group.groups_by_pos and Group.groups_by_pos[position]
   if edgebar and indexed_groups then
-    for index, line in ipairs(M.cache.statuslines[position]) do
-      local is_visible = edgebar.visible ~= 0 and index == indexed_groups.selected_index
+    -- Update active groups based on currently opened windows
+    Group.update_active_groups(position)
+    vim.iter(ipairs(M.cache.statuslines[position])):each(function(index, line)
+      local is_visible = edgebar.visible ~= 0 and indexed_groups:is_active(index)
       local highlight = M.get_highlight(is_visible, position, index)
       local separator_highlight = M.get_separator_highlight(is_visible, position, index)
       local pick = M.get_pick_text(is_visible, position, index)
       table.insert(statusline, M.get_statusline_icon(pick, separator_highlight, highlight, line))
-    end
+    end)
   end
   return statusline
 end
