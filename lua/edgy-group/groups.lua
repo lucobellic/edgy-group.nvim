@@ -1,32 +1,39 @@
 ---@class EdgyGroup.IndexedGroups
 ---@field selected_index number index of the selected group
+---@field active_indices table<number, boolean> set of active group indices
 ---@field groups EdgyGroup[] list of groups
 local M = {}
 
 ---@param opts EdgyGroup.IndexedGroups?
 ---@return EdgyGroup.IndexedGroups
 function M.new(opts)
-  local self = setmetatable(opts or { selected_index = 1, groups = {} }, { __index = M })
-  return self
+  return setmetatable(
+    vim.tbl_extend('force', { selected_index = 1, active_indices = {}, groups = {} }, opts or {}),
+    { __index = M }
+  )
 end
 
 function M:get_offset_index(offset)
   return (self.selected_index + offset - 1) % #self.groups + 1
 end
 
----@return EdgyGroup
-function M:get_selected_group()
-  return self.groups[self.selected_index]
+--- Check if a group at the given index is active
+---@param index number
+---@return boolean
+function M:is_active(index)
+  return self.active_indices[index]
 end
 
----@return EdgyGroup[]
-function M:get_groups_before_selected()
-  return vim.list_slice(self.groups, 1, self.selected_index - 1)
+--- Set a group as active or inactive
+---@param index number
+---@param active boolean
+function M:set_active(index, active)
+  self.active_indices[index] = active
 end
 
----@return EdgyGroup[]
-function M:get_groups_after_selected()
-  return vim.list_slice(self.groups, self.selected_index + 1)
+--- Clear all active indices
+function M:clear_active()
+  self.active_indices = {}
 end
 
 return M

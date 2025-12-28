@@ -165,12 +165,35 @@ function M.open_groups_by_key(key, opts)
   end)
 end
 
---- Get the currently selected group for the given position
+--- Update active groups for a given position based on currently opened edgy windows
+--- A group is considered active if at least one of its windows is open
 ---@param pos Edgy.Pos
----@return EdgyGroup?
-function M.selected(pos)
-  local g = M.groups_by_pos[pos]
-  return g and g:get_selected_group()
+function M.update_active_groups(pos)
+  ---@type EdgyGroup.IndexedGroups
+  local groups = M.groups_by_pos[pos]
+  if not groups then return end
+
+  -- Clear all active indices first
+  groups:clear_active()
+
+  -- Check each group and mark it as active if any of its windows are open
+  vim
+    .iter(ipairs(groups.groups or {}))
+    :filter(function(_, group)
+      return M.is_one_window_open(pos, group.titles)
+    end)
+    :each(function(index, _)
+      groups:set_active(index, true)
+    end)
+end
+
+--- Check if a group at the given position and index is active
+---@param pos Edgy.Pos
+---@param index number
+---@return boolean
+function M.is_group_active(pos, index)
+  local group = M.groups_by_pos[pos]
+  return group and group:is_active(index) or false
 end
 
 return M

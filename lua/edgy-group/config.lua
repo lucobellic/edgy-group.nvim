@@ -81,6 +81,7 @@ function M.setup(opts)
     local groups = opts and opts.groups[pos] or default_groups[pos]
     options.groups[pos] = Groups.new({
       selected_index = 1,
+      active_indices = {},
       groups = groups or {},
     })
   end
