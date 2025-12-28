@@ -29,7 +29,7 @@ function Cache.new(groups, opts)
   return self
 end
 
--- Get a list of all keys not used by the user
+--- Get a list of all keys not used by the user
 ---@private
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 ---@return string[] available_keys keys not used by the user
@@ -50,8 +50,7 @@ function Cache:get_available_keys(groups)
   end, keys_table)
 end
 
--- Build picking keys for each positions and group and associate them to the group
--- Assign a pick key to group without one
+--- Build pick keys for each position/group and map keys to groups
 ---@private
 ---@param groups table<Edgy.Pos, EdgyGroup.IndexedGroups>
 function Cache:build_keys(groups)
@@ -76,7 +75,7 @@ function Cache:build_keys(groups)
   end
 end
 
--- Create callback function on click if clickable
+--- Create callback function on click if clickable
 ---@private
 ---@param position Edgy.Pos
 ---@param index number

@@ -1,5 +1,3 @@
-local Group = require('edgy-group')
-
 local M = {}
 
 ---@class SelectionItem
@@ -7,12 +5,12 @@ local M = {}
 ---@field index number relative index in the group
 ---@field group EdgyGroup
 
--- Get a list of groups with relative index and position
+--- Get a list of groups with relative index and position
 ---@return SelectionItem[]
 local function create_selectable_groups()
   ---@type SelectionItem[]
   local items = {}
-  for pos, indexed_groups in pairs(Group.groups_by_pos or {}) do
+  for pos, indexed_groups in pairs(require('edgy-group').groups_by_pos or {}) do
     for index, group in ipairs(indexed_groups.groups or {}) do
       table.insert(items, {
         pos = pos,
@@ -53,6 +51,7 @@ function M.setup()
           ---@param item? SelectionItem
           format_item = function(item)
             if item then return item.pos .. ': ' .. item.group.icon .. '  ' .. table.concat(item.group.titles, ', ') end
+            return ''
           end,
           kind = 'edgy-group',
         },

@@ -1,6 +1,7 @@
 local M = {}
 
-local Groups = require('edgy-group.groups')
+---@diagnostic disable-next-line: duplicate-doc-alias
+---@alias Edgy.Pos "right" | "left" | "bottom" | "top"
 
 ---@class EdgyGroup
 ---@field icon string icon used in statusline and vim.ui.select
@@ -69,6 +70,8 @@ local default_options = {
 ---@param opts EdgyGroup.Opts?
 ---@return EdgyGroups.Opts.Parsed
 function M.setup(opts)
+  local Groups = require('edgy-group.groups')
+
   ---@type EdgyGroups.Opts.Parsed
   ---@diagnostic disable-next-line: assign-type-mismatch
   local options = default_options

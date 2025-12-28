@@ -60,7 +60,7 @@ function M.get_pick_text(is_visible, position, index)
   return pick
 end
 
----@alias EdgyGroup.PickStatusLine function(pick: string, separator_highlight: string, highlight: string, line: EdgyGroup.Statusline.Cache.Line): string
+---@alias EdgyGroup.PickStatusLine fun(pick: string, separator_highlight: string, highlight: string, line: EdgyGroup.Statusline.Cache.Line): string
 
 --- Table of statusline with pick key at different position
 ---@private
