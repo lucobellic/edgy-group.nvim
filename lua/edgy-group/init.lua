@@ -165,6 +165,33 @@ function M.open_groups_by_key(key, opts)
   end)
 end
 
+--- Refresh edgy's view.wins for the current tabpage
+---@private
+---@param pos Edgy.Pos position of the edgebar to refresh
+---@param tabpage integer? tabpage to refresh, defaults to current tabpage
+function M.refresh_edgebar_views_for_tab(pos, tabpage)
+
+  local edgebar = Config.layout[pos]
+  if edgebar then
+    --- @type table<string, number[]> map of filetype to list of wins with that filetype
+    local wins = {}
+    vim
+      .iter(vim.api.nvim_tabpage_list_wins(tabpage or 0))
+      :map(function(win)
+        local buf = vim.api.nvim_win_get_buf(win)
+        return { buf = buf, ft = vim.bo[buf].filetype, win = win }
+      end)
+      :filter(function(item)
+        return item.ft ~= nil and item.ft ~= ''
+      end)
+      :each(function(item)
+        if wins[item.ft] == nil then wins[item.ft] = {} end
+        table.insert(wins[item.ft], item.win)
+      end)
+    edgebar:update(wins)
+  end
+end
+
 --- Update active groups for a given position based on currently opened edgy windows
 --- A group is considered active if at least one of its windows is open
 ---@param pos Edgy.Pos
@@ -172,6 +199,10 @@ function M.update_active_groups(pos)
   ---@type EdgyGroup.IndexedGroups
   local groups = M.groups_by_pos[pos]
   if not groups then return end
+
+  -- edgy only updates view.wins on BufWinEnter/WinResized,
+  -- so after a tab switch its state can be stale.
+  M.refresh_edgebar_views_for_tab(pos)
 
   -- Clear all active indices first
   groups:clear_active()
