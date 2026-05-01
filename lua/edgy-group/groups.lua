@@ -21,7 +21,7 @@ end
 ---@param index number
 ---@return boolean
 function M:is_active(index)
-  return self.active_indices[index]
+  return self.active_indices[index] == true
 end
 
 --- Set a group as active or inactive
