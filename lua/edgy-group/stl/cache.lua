@@ -35,8 +35,10 @@ end
 ---@return string[] available_keys keys not used by the user
 function Cache:get_available_keys(groups)
   local user_keys = {}
-  for _, group in ipairs(groups) do
-    if group.pick_key then table.insert(user_keys, group.pick_key) end
+  for _, indexed_groups in pairs(groups) do
+    for _, group in ipairs(indexed_groups.groups or {}) do
+      if group.pick_key then table.insert(user_keys, group.pick_key) end
+    end
   end
 
   local pick_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
