@@ -74,7 +74,7 @@ function M.setup(opts)
 
   ---@type EdgyGroups.Opts.Parsed
   ---@diagnostic disable-next-line: assign-type-mismatch
-  local options = default_options
+  local options = vim.deepcopy(default_options)
 
   local default_groups = default_options.groups
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
