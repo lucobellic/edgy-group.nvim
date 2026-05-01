@@ -196,4 +196,12 @@ function M.is_group_active(pos, index)
   return group and group:is_active(index) or false
 end
 
+--- Get the currently selected group for the given position
+---@param pos Edgy.Pos
+---@return EdgyGroup?
+function M.selected(pos)
+  local g = M.groups_by_pos[pos]
+  return g and g.groups[g.selected_index]
+end
+
 return M
