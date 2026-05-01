@@ -74,19 +74,18 @@ function M.setup(opts)
 
   ---@type EdgyGroups.Opts.Parsed
   ---@diagnostic disable-next-line: assign-type-mismatch
-  local options = vim.deepcopy(default_options)
+  local options = vim.tbl_deep_extend('force', vim.deepcopy(default_options), opts or {})
 
-  local default_groups = default_options.groups
+  local user_groups = opts and opts.groups or {}
   for _, pos in ipairs({ 'right', 'left', 'bottom', 'top' }) do
-    local groups = opts and opts.groups[pos] or default_groups[pos]
+    local groups = user_groups[pos] or default_options.groups[pos]
     options.groups[pos] = Groups.new({
       selected_index = 1,
       active_indices = {},
       groups = groups or {},
     })
   end
-  ---@diagnostic disable-next-line: assign-type-mismatch
-  options.statusline = vim.tbl_deep_extend('force', default_options.statusline, opts and opts.statusline or {})
+
   return options
 end
 
