@@ -188,10 +188,12 @@ function M.update_active_groups(pos)
 end
 
 --- Check if a group at the given position and index is active
+--- Active indices are refreshed before querying to ensure up-to-date state
 ---@param pos Edgy.Pos
 ---@param index number
 ---@return boolean
 function M.is_group_active(pos, index)
+  M.update_active_groups(pos)
   local group = M.groups_by_pos[pos]
   return group and group:is_active(index) or false
 end
