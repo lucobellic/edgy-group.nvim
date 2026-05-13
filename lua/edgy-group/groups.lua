@@ -13,7 +13,11 @@ function M.new(opts)
   )
 end
 
+--- Get the index of the group at the given offset from the selected group
+---@param offset number
+---@return number? index of the group at the given offset from the selected group, or nil
 function M:get_offset_index(offset)
+  if #self.groups == 0 then return nil end
   return (self.selected_index + offset - 1) % #self.groups + 1
 end
 
