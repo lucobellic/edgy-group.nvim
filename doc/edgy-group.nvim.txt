@@ -1,4 +1,5 @@
-*edgy-group.nvim.txt*           For Neovim >= 0.9.0          Last change: 2025
+*edgy-group.nvim.txt*
+                                      For Neovim >= 0.9.0    Last change: 2026
 
 ==============================================================================
 Table of Contents                          *edgy-group.nvim-table-of-contents*
@@ -12,7 +13,7 @@ Table of Contents                          *edgy-group.nvim-table-of-contents*
   - API                                            |edgy-group.nvim-usage-api|
 6. Highlights                                     |edgy-group.nvim-highlights|
 7. Example Setup                               |edgy-group.nvim-example-setup|
-  - CustomPicker Behavior|edgy-group.nvim-example-setup-custompicker-behavior|
+  - Custom Picker Behavior|edgy-group.nvim-example-setup-custom-picker-behavior|
   - Statusline                      |edgy-group.nvim-example-setup-statusline|
 edgy-group.nvim <https://github.com/lucobellic/edgy-group.nvim> extends
 edgy.nvim <https://github.com/folke/edgy.nvim> by providing a simple method for
@@ -51,7 +52,7 @@ edgy.nvim <https://github.com/folke/edgy.nvim>
 
 Install the plugin using your preferred package manager.
 
-lazy.nvim <%22https://github.com/folke/lazy.nvim%22>
+lazy.nvim <%22https://github.com/folke/lazy.nvim%22>:
 
 >lua
     {
@@ -154,9 +155,9 @@ The following highlights are created and set based on the configuration:
 - `EdgyGroupSeparatorActive` / `EdgyGroupSeparatorInactive`
 
 For more granular control, groups specific to both position and index are also
-created, following the format `EdgyGroup<Category><Status><Position><Index>`
+created, following the format `EdgyGroup<Category><Status><Position><Index>`:
 
-- `EdgyGroupActiveLeft1`,`EdgyGroupSeparatorInactiveRight2`, etc.
+- `EdgyGroupActiveLeft1`, `EdgyGroupSeparatorInactiveRight2`, etc.
 
 By default, highlight groups are linked hierarchically by their level of
 specificity:
@@ -174,7 +175,7 @@ customizations.
 
   [!WARNING] Only groups with a provided title will be displayed. A default group
   will not be created if titles from edgy are missing.
-Usage of **edgy-group.nvim** to create three groups for the left **edgebar**
+Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
 
 >lua
     {
@@ -256,7 +257,7 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**
 <
 
 
-CUSTOMPICKER BEHAVIOR    *edgy-group.nvim-example-setup-custompicker-behavior*
+CUSTOM PICKER BEHAVIOR  *edgy-group.nvim-example-setup-custom-picker-behavior*
 
 Optionally create a custom picker function to define your own behavior when
 selecting a group by key.
