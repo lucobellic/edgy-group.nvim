@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.2](https://github.com/lucobellic/edgy-group.nvim/compare/v0.5.1...v0.5.2) (2026-05-20)
+
+
+### Features
+
+* add support for multiple active groups per position ([0342a9a](https://github.com/lucobellic/edgy-group.nvim/commit/0342a9a4f680baabcf97c3fa84f84bc133f32544))
+* add support for tab ([f7e4ff0](https://github.com/lucobellic/edgy-group.nvim/commit/f7e4ff0340ba54f52bb084abd9fcc6d57bb7f3d1))
+* restore selected() for backward compatibility ([3a6617f](https://github.com/lucobellic/edgy-group.nvim/commit/3a6617fc303fa172e8820527013dc0caca503917))
+
+
+### Bug Fixes
+
+* check for groups size to get offset index ([9562720](https://github.com/lucobellic/edgy-group.nvim/commit/956272068c47eab68de2a9549ebe9a7ca7dd5dfd))
+* deep copy default_options in setup to avoid state mutation ([13eef3a](https://github.com/lucobellic/edgy-group.nvim/commit/13eef3a7bb617b3d5795c0d4b35c4a3161b5261a))
+* normalize is_active return to strict boolean ([0a9be51](https://github.com/lucobellic/edgy-group.nvim/commit/0a9be51ba06174d7d690086b0a396bae3b72ac72))
+* refresh active_indices before querying in is_group_active ([6603d99](https://github.com/lucobellic/edgy-group.nvim/commit/6603d990601599bb24756696d91d4b7f5c1d19b9))
+* update configuration setup initialization ([a3a4c4b](https://github.com/lucobellic/edgy-group.nvim/commit/a3a4c4bbd7465f6f110d176bfe8d2557a47d2456))
+* use pairs to iterate groups by position in get_available_keys ([4313843](https://github.com/lucobellic/edgy-group.nvim/commit/43138431caf7ac7e6100b67261609a6a754ac7b5))
+
 ## [0.5.1](https://github.com/lucobellic/edgy-group.nvim/compare/v0.5.0...v0.5.1) (2025-09-07)
 
 
