@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     name: lint
     steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
+      - uses: actions/checkout@v6
+      - uses: JohnnyMorganz/stylua-action@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
@@ -30,7 +30,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Generator documentation
       - name: panvimdoc
@@ -63,7 +63,7 @@ jobs:
       - docs
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: googleapis/release-please-action@v5
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
