@@ -36,6 +36,10 @@ https://github.com/lucobellic/edgy-group.nvim/assets/6067072/6bee2762-9cc7-46d8-
 
 [edgy-group.nvim](https://github.com/lucobellic/edgy-group.nvim) extends [edgy.nvim](https://github.com/folke/edgy.nvim) by providing a simple method for organizing windows within **edgebar** based on their title.
 
+> [!IMPORTANT]
+> I now use [layout.nvim](https://github.com/lucobellic/layout.nvim) to replace both **edgy.nvim** and **edgy-group.nvim**.
+> I will continue to respond to issues, but I will not add new features to **edgy-group.nvim**.
+
 ## ✨ Features
 
 - Switch between groups of windows within **edgebar**.
