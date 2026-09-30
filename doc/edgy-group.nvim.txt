@@ -20,6 +20,10 @@ edgy.nvim <https://github.com/folke/edgy.nvim> by providing a simple method for
 organizing windows within **edgebar** based on their title.
 
 
+  [!IMPORTANT] I now use layout.nvim <https://github.com/lucobellic/layout.nvim>
+  to replace both **edgy.nvim** and **edgy-group.nvim**. I will continue to
+  respond to issues, but I will not add new features to **edgy-group.nvim**.
+
 ==============================================================================
 1. Features                                         *edgy-group.nvim-features*
 
@@ -220,7 +224,7 @@ Usage of **edgy-group.nvim** to create three groups for the left **edgebar**:
         },
       }
     }
-    
+
     -- edgy configuration (simplified)
     {
       "folke/edgy.nvim",
@@ -385,7 +389,7 @@ PICKING ~
 >lua
     -- default
     require('edgy-group.stl').pick()
-    
+
     -- with lualine add a refresh callback
     require('edgy-group.stl').pick(function() require('lualine').refresh() end)
 <
